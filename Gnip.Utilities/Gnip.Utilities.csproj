@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B9FB8841-09A3-471F-90BA-1EA2FCE56E0A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Gnip.Utilities</RootNamespace>
+    <AssemblyName>Gnip.Utilities</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="JsonClasses\Activity.cs" />
+    <Compile Include="JsonClasses\ActivityObject.cs" />
+    <Compile Include="JsonClasses\Actor.cs" />
+    <Compile Include="JsonClasses\Address.cs" />
+    <Compile Include="JsonClasses\Coordinates.cs" />
+    <Compile Include="JsonClasses\Error.cs" />
+    <Compile Include="JsonClasses\Generator.cs" />
+    <Compile Include="JsonClasses\Geo.cs" />
+    <Compile Include="JsonClasses\Gnip.cs" />
+    <Compile Include="JsonClasses\Hashtags.cs" />
+    <Compile Include="JsonClasses\InReplyTo.cs" />
+    <Compile Include="JsonClasses\Job.cs" />
+    <Compile Include="JsonClasses\JobQuote.cs" />
+    <Compile Include="JsonClasses\KloutProfile.cs" />
+    <Compile Include="JsonClasses\KloutTopic.cs" />
+    <Compile Include="JsonClasses\Language.cs" />
+    <Compile Include="JsonClasses\Location.cs" />
+    <Compile Include="JsonClasses\Media.cs" />
+    <Compile Include="JsonClasses\ProfileLocations.cs" />
+    <Compile Include="JsonClasses\Provider.cs" />
+    <Compile Include="JsonClasses\Rule.cs" />
+    <Compile Include="JsonClasses\SearchRequest.cs" />
+    <Compile Include="JsonClasses\Size.cs" />
+    <Compile Include="JsonClasses\Symbols.cs" />
+    <Compile Include="JsonClasses\Twitter_Entities.cs" />
+    <Compile Include="JsonClasses\Twitter_Extended_Entities.cs" />
+    <Compile Include="JsonClasses\URLs.cs" />
+    <Compile Include="JsonClasses\User_Mentions.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
