@@ -29,11 +29,11 @@ namespace HistoricalPowerTrack
             hptJob.DownloadComplete += hptJob_DownloadComplete;
         }
 
-        void hptJob_DownloadComplete(object sender, int fileNumber)
+        void hptJob_DownloadComplete(object sender, string fileName)
         {
             Invoke((MethodInvoker)delegate
             {
-                tsMessage.Text = "File " + fileNumber + " Downloaded";
+                tsMessage.Text = "File " + fileName + " Downloaded";
             });
         }
 
@@ -56,7 +56,7 @@ namespace HistoricalPowerTrack
             dtJobs.Columns.Add(new DataColumn("fileCount", typeof(int)) {Caption = "# of Files"});
             dtJobs.Columns.Add(new DataColumn("expiresAt", typeof(string)) {Caption = "Expires on"});
             dtJobs.Columns.Add(new DataColumn("percentComplete", typeof(int)) {Caption = "% Complete"});
-            dtJobs.Columns.Add(new DataColumn("job_uuid", typeof(string)) {Caption = "ID"});
+            dtJobs.Columns.Add(new DataColumn("uuid", typeof(string)) {Caption = "ID"});
         }
 
         private void GetJobs()  
@@ -95,7 +95,7 @@ namespace HistoricalPowerTrack
                                 jobInfo.fileCount,
                                 jobInfo.expiresAt,
                                 jobInfo.percentComplete,
-                                jobInfo.job_uuid
+                                jobInfo.uuid
                                 );
                         }
                         else if (jobInfo.status == "delivered")
@@ -111,7 +111,7 @@ namespace HistoricalPowerTrack
                                   jobInfo.results.fileCount,
                                   jobInfo.expiresAt,
                                   jobInfo.percentComplete,
-                                  jobInfo.job_uuid
+                                  jobInfo.uuid
                                   );
                         }
                         else if (jobInfo.status == "rejected")
@@ -127,7 +127,7 @@ namespace HistoricalPowerTrack
                                   null,
                                   jobInfo.expiresAt,
                                   null,
-                                  jobInfo.job_uuid
+                                  jobInfo.uuid
                                   );
                         }
                         else 
@@ -143,7 +143,7 @@ namespace HistoricalPowerTrack
                                   jobInfo.fileCount,
                                   jobInfo.expiresAt,
                                   jobInfo.percentComplete,
-                                  jobInfo.job_uuid
+                                  jobInfo.uuid
                                   );
                         }
                 }
@@ -191,15 +191,15 @@ namespace HistoricalPowerTrack
             GetJobs();
         }
 
-        private void UpdateJob(string job_uuid, int RowId, string toStatus)
+        private void UpdateJob(string uuid, int RowId, string toStatus)
         {
-            Debug.WriteLine("job_uuid:" + job_uuid);
+            Debug.WriteLine("uuid:" + uuid);
             tsMessage.Text = "Updating Job " + dgvHPTJobs.Rows[RowId].Cells["title"].Value;
             HptJobInfo jobInfo = null;
             if (toStatus == "Accept")
-                jobInfo = hptJob.Accept(job_uuid);
+                jobInfo = hptJob.Accept(uuid);
             else
-                jobInfo = hptJob.Reject(job_uuid);
+                jobInfo = hptJob.Reject(uuid);
         
             if (jobInfo == null)
             {
@@ -227,18 +227,18 @@ namespace HistoricalPowerTrack
             {
                 var UpdateForm = new frmUpdateStatus();
                 UpdateForm.tbJobInfo.Text =
-                    "ID: " + dgvHPTJobs.Rows[RowId].Cells["job_uuid"].Value + Environment.NewLine + Environment.NewLine +
+                    "ID: " + dgvHPTJobs.Rows[RowId].Cells["uuid"].Value + Environment.NewLine + Environment.NewLine +
                     "Title: " + dgvHPTJobs.Rows[RowId].Cells["title"].Value + Environment.NewLine + 
                     "Estimated Activity Count: " + ((UInt64)dgvHPTJobs.Rows[RowId].Cells["estimatedActivityCount"].Value).ToString("N0") + Environment.NewLine +
                     "Estimated Job time: " + ((Single)dgvHPTJobs.Rows[RowId].Cells["estimatedDurationHours"].Value).ToString("N0") + " hours" + Environment.NewLine +
                     "Estimated Filesize: " + ((Single)dgvHPTJobs.Rows[RowId].Cells["estimatedFileSizeMb"].Value).ToString("N0") + " MB" + Environment.NewLine;
                 var response = UpdateForm.ShowDialog();
-                string job_uuid = dgvHPTJobs.Rows[RowId].Cells["job_uuid"].Value.ToString();
+                string uuid = dgvHPTJobs.Rows[RowId].Cells["uuid"].Value.ToString();
 
                 if (response == DialogResult.Yes)
-                    UpdateJob(job_uuid, RowId, "Accept");
+                    UpdateJob(uuid, RowId, "Accept");
                 else if (response == DialogResult.No)
-                    UpdateJob(job_uuid,RowId, "Reject");
+                    UpdateJob(uuid,RowId, "Reject");
             }
         }
         private void dgvHPTJobs_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -263,8 +263,8 @@ namespace HistoricalPowerTrack
         {
             tsMessage.Text = "Starting Download";
             this.Refresh();
-            string job_uuid = dgvHPTJobs.Rows[RowId].Cells["job_uuid"].Value.ToString();
-            hptJob.StartDownload(job_uuid, Application.StartupPath);
+            string uuid = dgvHPTJobs.Rows[RowId].Cells["uuid"].Value.ToString();
+            hptJob.StartDownload(uuid, Application.StartupPath);
             tsMessage.Text = "Download Finished.";
         }
 

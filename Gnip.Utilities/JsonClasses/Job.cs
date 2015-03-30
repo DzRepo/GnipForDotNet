@@ -41,7 +41,7 @@ namespace Gnip.Utilities.JsonClasses
         public HptJobQuote quote { get; set; }  // detail after estimate
         public int percentComplete { get; set; }  // summary
         public Rule[] rules { get; set; }  // put - rules for searching - max of 1000
-        public string job_uuid { get; set; }  // this data is not currently passed directly via Json, but is parsed out of jobURL when available
+        public string uuid { get; set; }  
         public HptJobResult results { get; set; }  // detail
     }
 

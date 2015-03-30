@@ -25,13 +25,13 @@ namespace Gnip.Powertrack.Historical
         const string AcceptJson = @"{""status"":""accept""}";
         const string RejectJson = @"{""status"":""reject""}";
 
-        public delegate void FileDownloadComplete(object sender, int fileNumber);
+        public delegate void FileDownloadComplete(object sender, string fileName);
         public event FileDownloadComplete DownloadComplete;
 
-        protected virtual void OnDownloadComplete(int fileNumber)
+        protected virtual void OnDownloadComplete(string fileName)
         {
             if (DownloadComplete != null)
-                DownloadComplete(this, fileNumber);
+                DownloadComplete(this, fileName);
         }
 
         public string Create(HptJobInfo job)
@@ -41,24 +41,24 @@ namespace Gnip.Powertrack.Historical
 
         }
 
-        public string GetStatus(string job_uuid)
+        public string GetStatus(string uuid)
         {
             ErrorState = false;
             return null;
         }
 
-        public HptJobInfo Accept(string job_uuid)
+        public HptJobInfo Accept(string uuid)
         {
-            return UpdateJob(job_uuid, AcceptJson);
+            return UpdateJob(uuid, AcceptJson);
             
         }
 
-        public HptJobInfo Reject(string job_uuid)
+        public HptJobInfo Reject(string uuid)
         {
-            return UpdateJob(job_uuid, RejectJson);
+            return UpdateJob(uuid, RejectJson);
         }
 
-        private HptJobInfo UpdateJob(string job_uuid, string toStatus)
+        private HptJobInfo UpdateJob(string uuid, string toStatus)
         {
             ErrorState = false;
 
@@ -67,7 +67,7 @@ namespace Gnip.Powertrack.Historical
                 string jsonResponse = "";
                 var responseCode = Utilities.Restful.GetRestResponse(
                     "PUT",
-                    jobURL(job_uuid),
+                    jobURL(uuid),
                     Username,
                     Password,
                     out jsonResponse,
@@ -85,7 +85,7 @@ namespace Gnip.Powertrack.Historical
             return null;
         }
 
-        public string GetResults(string job_uuid)
+        public string GetResults(string uuid)
         {
             ErrorState = false;
             return null;
@@ -112,14 +112,14 @@ namespace Gnip.Powertrack.Historical
                 if (responseCode == HttpStatusCode.OK)
                 { 
                     try
-                            {
+                    {
                     var JobObject = JsonConvert.DeserializeObject<HptJobHeader>(jsonResponse);
 
                     JobList = new List<HptJobInfo> (JobObject.jobs);
-                    // parse out and capture job_uuid for each record
+                    // parse out and capture uuid for each record
                     foreach (var job in JobList)
                     {
-                        Debug.WriteLine("JobID:" + job.job_uuid);
+                        Debug.WriteLine("JobID:" + job.uuid);
                         Debug.WriteLine("expiresAt:" + job.expiresAt);
                         if (job.results != null) Debug.WriteLine("results.expiresAt:" + job.results.expiresAt);
                         if (job.quote != null) Debug.WriteLine("quote.expiresAt:" + job.quote.expiresAt);
@@ -164,9 +164,9 @@ namespace Gnip.Powertrack.Historical
                                 }
                             }
 
-                            var uStart = job.jobURL.LastIndexOf(@"jobs") + 5;
-                            var uEnd = job.jobURL.LastIndexOf(@".json");
-                            job.job_uuid = job.jobURL.Substring(uStart, uEnd - uStart);
+                            //var uStart = job.jobURL.LastIndexOf(@"jobs") + 5;
+                            //var uEnd = job.jobURL.LastIndexOf(@".json");
+                            //job.uuid = job.jobURL.Substring(uStart, uEnd - uStart);
                            
                         }
                     }
@@ -196,29 +196,32 @@ namespace Gnip.Powertrack.Historical
             return "https://historical.gnip.com:443/accounts/" + AccountName + "/jobs.json";
 
         }
-        private string jobURL(string job_uuid)
+        private string jobURL(string uuid)
         {
-            return "https://historical.gnip.com:443/accounts/" + AccountName + "/publishers/twitter/historical/track/jobs/"+ job_uuid + ".json";
+            return "https://historical.gnip.com:443/accounts/" + AccountName + "/publishers/twitter/historical/track/jobs/"+ uuid + ".json";
 
         }
 
 
-        private async Task DownloadFile(string url, string DestinationFolder, string title, int fileNumber)
+        private async Task<int> DownloadFile(string url, string DestinationFolder, string title, int fileNumber)
         {
+            Debug.WriteLine("Downloading file# " + fileNumber);
             WebClient myWebClient = new WebClient();
+            
             var fileName = title + "-File" + fileNumber.ToString().PadLeft(6, "0".ToCharArray()[0]) + ".gz";
             var localFileName = DestinationFolder + @"\" + fileName;
 
-            // don't redownload if stopped for whatever reason
             if (!System.IO.File.Exists(localFileName)) 
-                 await myWebClient.DownloadFileTaskAsync(url, localFileName);
-
-            OnDownloadComplete(fileNumber);
+            await myWebClient.DownloadFileTaskAsync(url, localFileName);
             // need to send an event to cross threads and free UI thread.  "Starting download of file..."
+            return fileNumber;
         }
-        public void StartDownload(string job_uuid, string DestinationFolder)
+
+ 
+        public void StartDownload(string uuid, string DestinationFolder)
         {
-            var jobToDownload = JobList.Where(info => info.job_uuid == job_uuid).FirstOrDefault();
+            ThreadPool.SetMaxThreads(500, 500);
+            var jobToDownload = JobList.Where(info => info.uuid == uuid).FirstOrDefault();
 
             var jsonResponse = "";
             try
@@ -231,12 +234,37 @@ namespace Gnip.Powertrack.Historical
                     out jsonResponse);
                 if (responseCode == HttpStatusCode.OK)
                 {
+
                     var jobResultData = JsonConvert.DeserializeObject<HptJobResultData>(jsonResponse);
                     Debug.WriteLine("Number of files to download: " + jobResultData.urlCount);
-                    for (var index = 0; index < jobResultData.urlCount; index++)
+                    for (var index = 0; index < jobResultData.urlCount; index = index + 500)
                     {
-                        var x = DownloadFile(jobResultData.urlList[index], DestinationFolder, jobToDownload.title, index);
+                        var maxIndex = index + 500;
+                        if (index > jobResultData.urlCount) maxIndex = jobResultData.urlCount;
+
+                        Debug.WriteLine("Outerloop: index is " + index);
+                        Task<int> x = null;
+                        for (var innerIndex = index; innerIndex < maxIndex; innerIndex++)
+                        {
+                            x = DownloadFile(
+                                jobResultData.urlList[innerIndex],
+                                DestinationFolder,
+                                jobToDownload.title,
+                                innerIndex);
+                            
+                        }
+                        int threadCount;
+                        int completionPortThreads;
+                        ThreadPool.GetAvailableThreads(out threadCount, out completionPortThreads);
+                        while (threadCount < 500)
+                        {
+                            // wait 10 seconds?
+                            Thread.Sleep(10000);
+                            ThreadPool.GetAvailableThreads(out threadCount, out completionPortThreads);
+                            Debug.WriteLine("TC:" + threadCount + "  comPT:" + completionPortThreads);
+                        }
                     }
+
                 }
             }
             catch (Exception ex)

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmUpdateStatus));
             this.btnAccept = new System.Windows.Forms.Button();
             this.btnReject = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
@@ -37,30 +38,36 @@
             // 
             // btnAccept
             // 
+            this.btnAccept.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnAccept.DialogResult = System.Windows.Forms.DialogResult.Yes;
-            this.btnAccept.Location = new System.Drawing.Point(13, 224);
+            this.btnAccept.Location = new System.Drawing.Point(12, 175);
+            this.btnAccept.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnAccept.Name = "btnAccept";
-            this.btnAccept.Size = new System.Drawing.Size(106, 28);
+            this.btnAccept.Size = new System.Drawing.Size(94, 32);
             this.btnAccept.TabIndex = 1;
             this.btnAccept.Text = "Accept";
             this.btnAccept.UseVisualStyleBackColor = true;
             // 
             // btnReject
             // 
+            this.btnReject.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnReject.DialogResult = System.Windows.Forms.DialogResult.No;
-            this.btnReject.Location = new System.Drawing.Point(125, 224);
+            this.btnReject.Location = new System.Drawing.Point(116, 175);
+            this.btnReject.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnReject.Name = "btnReject";
-            this.btnReject.Size = new System.Drawing.Size(106, 28);
+            this.btnReject.Size = new System.Drawing.Size(94, 32);
             this.btnReject.TabIndex = 2;
             this.btnReject.Text = "Reject";
             this.btnReject.UseVisualStyleBackColor = true;
             // 
             // btnCancel
             // 
+            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(237, 224);
+            this.btnCancel.Location = new System.Drawing.Point(220, 175);
+            this.btnCancel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(106, 28);
+            this.btnCancel.Size = new System.Drawing.Size(94, 32);
             this.btnCancel.TabIndex = 0;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
@@ -69,29 +76,34 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(13, 13);
+            this.label1.Location = new System.Drawing.Point(12, 10);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(104, 20);
+            this.label1.Size = new System.Drawing.Size(94, 17);
             this.label1.TabIndex = 3;
             this.label1.Text = "Job Details:";
             // 
             // tbJobInfo
             // 
             this.tbJobInfo.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.tbJobInfo.Location = new System.Drawing.Point(16, 47);
+            this.tbJobInfo.Location = new System.Drawing.Point(14, 38);
+            this.tbJobInfo.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tbJobInfo.Multiline = true;
             this.tbJobInfo.Name = "tbJobInfo";
             this.tbJobInfo.ReadOnly = true;
-            this.tbJobInfo.Size = new System.Drawing.Size(316, 159);
+            this.tbJobInfo.Size = new System.Drawing.Size(281, 119);
             this.tbJobInfo.TabIndex = 4;
             this.tbJobInfo.TabStop = false;
             // 
             // frmUpdateStatus
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AcceptButton = this.btnAccept;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.AutoScroll = true;
+            this.AutoSize = true;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(352, 264);
+            this.ClientSize = new System.Drawing.Size(322, 217);
             this.ControlBox = false;
             this.Controls.Add(this.tbJobInfo);
             this.Controls.Add(this.label1);
@@ -99,6 +111,8 @@
             this.Controls.Add(this.btnReject);
             this.Controls.Add(this.btnAccept);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmUpdateStatus";
