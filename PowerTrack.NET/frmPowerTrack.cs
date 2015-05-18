@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using Gnip.Powertrack;
 using Gnip.Powertrack.Rules;
 using Gnip.Utilities.JsonClasses;
 using Gnip.PowerTrack.Stream;
@@ -27,7 +28,7 @@ namespace PowerTrack.NET
 
         private static int ROWS = 40;
 
-        private ActivityStream activityStream;
+        private GnipStreamReader activityStream;
         private RuleManager rm = new RuleManager();
         static Timer myTimer = new Timer();
         private int countDown = 10;
@@ -46,10 +47,10 @@ namespace PowerTrack.NET
         private void IntitalizeStream()
         {
             dsStream.Tables.Add(new DataTable("Stream"));
-            activityStream = new ActivityStream();
-            activityStream.Received += activityStream_Received;
-            activityStream.ActitivityEx += activityStream_ActitivityEx;
-            activityStream.ForcedDisconnectEvent += activityStream_ForcedDisconnectEvent;
+            activityStream = new GnipStreamReader();
+            activityStream.OnActivityReceived += activityStream_Received;
+            activityStream.OnReaderExeception += activityStream_ActitivityEx;
+            activityStream.OnDisconnect += activityStream_ForcedDisconnectEvent;
         }
         private void IntitalizeRules()
         {
@@ -218,6 +219,7 @@ namespace PowerTrack.NET
                     }
                     #endregion
                     #region gnip fields
+                    
                     case "gnip.matching_rules":
                     {
                         newRow[fieldName] = activity.gnip.Matching_Rules();
@@ -226,6 +228,11 @@ namespace PowerTrack.NET
                     case "gnip.language":
                     {
                         newRow[fieldName] = activity.gnip.language;
+                        break;
+                    }
+                    case "gnip.klout_score":
+                    {
+                        newRow[fieldName] = activity.gnip.klout_score;
                         break;
                     }
                     #endregion
@@ -248,7 +255,7 @@ namespace PowerTrack.NET
                     #endregion
                 }
                 // show number of tweets received
-                Invoke((MethodInvoker) delegate { tsStatus.Text = activityStream.ActivityCount.ToString(); } );
+                Invoke((MethodInvoker) delegate { tsStatus.Text = activityStream.ActivityCount().ToString(); } );
             }
 
             Invoke((MethodInvoker)delegate
@@ -552,15 +559,9 @@ namespace PowerTrack.NET
             {
 
                 dsStream.Tables["Stream"].Rows.Clear();
-              
-                activityStream.StreamName = tbStreamName.Text;
-                activityStream.Username = tbUsername.Text;
-                activityStream.Password = tbPassword.Text;
-                activityStream.AccountName = tbAccountName.Text;
-
                 dsStream.Tables["Stream"].Rows.Clear();
                 
-                activityStream.Connect();
+                activityStream.Connect( tbAccountName.Text, tbUsername.Text,tbPassword.Text,tbStreamName.Text);
 
                 Invoke((MethodInvoker) delegate
                 {

@@ -4,15 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9D8C8E2F-6D28-409E-9736-BCF3CB1EFC40}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{A91EC757-D7D8-4624-A0DE-EC4BFA8CB23C}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Gnip.Powertrack</RootNamespace>
-    <AssemblyName>Gnip.Powertrack</AssemblyName>
+    <RootNamespace>StreamTest</RootNamespace>
+    <AssemblyName>StreamTest</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,6 +23,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -42,17 +44,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GnipStreamReader.cs" />
-    <Compile Include="Historical\HPTJob.cs" />
-    <Compile Include="Rules\Extension.cs" />
-    <Compile Include="Rules\RuleManager.cs" />
-    <Compile Include="Rules\UrlBuilder.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Gnip.Powertrack\Gnip.Powertrack.csproj">
+      <Project>{9d8c8e2f-6d28-409e-9736-bcf3cb1efc40}</Project>
+      <Name>Gnip.Powertrack</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Gnip.Utilities\Gnip.Utilities.csproj">
       <Project>{b9fb8841-09a3-471f-90ba-1ea2fce56e0a}</Project>
       <Name>Gnip.Utilities</Name>

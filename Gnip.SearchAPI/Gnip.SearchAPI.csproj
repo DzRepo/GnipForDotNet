@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9D8C8E2F-6D28-409E-9736-BCF3CB1EFC40}</ProjectGuid>
+    <ProjectGuid>{89606429-80FA-471E-8453-8E04E6F65368}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Gnip.Powertrack</RootNamespace>
-    <AssemblyName>Gnip.Powertrack</AssemblyName>
+    <RootNamespace>Gnip.SearchAPI</RootNamespace>
+    <AssemblyName>Gnip.SearchAPI</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -42,21 +42,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GnipStreamReader.cs" />
-    <Compile Include="Historical\HPTJob.cs" />
-    <Compile Include="Rules\Extension.cs" />
-    <Compile Include="Rules\RuleManager.cs" />
-    <Compile Include="Rules\UrlBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
+    <Compile Include="request.cs" />
+    <Compile Include="SearchResults.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Gnip.Utilities\Gnip.Utilities.csproj">
       <Project>{b9fb8841-09a3-471f-90ba-1ea2fce56e0a}</Project>
       <Name>Gnip.Utilities</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
