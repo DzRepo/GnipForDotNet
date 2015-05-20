@@ -1,4 +1,6 @@
-﻿namespace Gnip.Utilities.JsonClasses
+﻿using System.Linq;
+
+namespace Gnip.Utilities.JsonClasses
 {
     public class Twitter_Entities
     {
@@ -6,8 +8,12 @@
         public Symbols[] symbols;
         public URLs[] urls;
         public User_Mention[] user_mentions;
+        public Media[] media;
 
-        // public Media[] media;
+        /// <summary>
+        /// Returns an aggregated view of hashtags as a single field.
+        /// </summary>
+        /// <returns></returns>
         public string Hashtags()
         {
             string returnValue = "";

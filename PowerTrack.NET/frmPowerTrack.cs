@@ -9,8 +9,6 @@ using System.Windows.Forms;
 using Gnip.Powertrack;
 using Gnip.Powertrack.Rules;
 using Gnip.Utilities.JsonClasses;
-using Gnip.PowerTrack.Stream;
-
 
 namespace PowerTrack.NET
 {
@@ -106,13 +104,8 @@ namespace PowerTrack.NET
         #region Non UI Event Handlers
         void activityStream_ForcedDisconnectEvent(object sender)
         {
-            Debug.WriteLine("Force Disconnect message recieved");
-            myTimer.Interval = 1000;
-            myTimer.Enabled = true;
-            myTimer.Start();
-            countDown = 10;
-            tsMessage.Text = "Stream Disconnect initiated.  Pausing.";
-            StopStream();
+            Debug.WriteLine("Force Disconnect message recieved.  Reconnecting");
+            StartStream();
         }
 
         private void activityStream_ActitivityEx(object sender, Exception ex)

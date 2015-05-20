@@ -7,16 +7,14 @@ namespace StreamTest
 {
     class Program
     {
-        const string UserName = "USERNAME";
+        const string UserName = "USERNANE";
         const string Password = "PASSWORD";
         const string AccountName = "ACCOUNTNAME";
         const string StreamLabel = "STREAMNAME";
-
+        private static GnipStreamReader streamReader;
         static void Main()
         {
-        
-            var streamReader = new GnipStreamReader();
-
+            streamReader = new GnipStreamReader();
             streamReader.OnActivityReceived += streamReader_OnActivityReceived;
             streamReader.OnReaderExeception += streamReader_OnReaderException;
             streamReader.OnDisconnect += streamReader_OnDisconnect;
@@ -24,14 +22,14 @@ namespace StreamTest
 
             while (true)
             {
-                    Thread.Sleep(1000);
+                    Thread.Sleep(5000);
             }
         }
 
         private static void streamReader_OnDisconnect(object sender)
         {
             Console.WriteLine("Disconnect detected - reconnecting!!!!");
-            GnipStreamReader streamReader = (GnipStreamReader) sender;
+            streamReader = (GnipStreamReader) sender;
             streamReader.Connect(AccountName, UserName, Password, StreamLabel);
         }
 
@@ -42,7 +40,8 @@ namespace StreamTest
 
         static void streamReader_OnActivityReceived(object sender, Activity activity)
         {
-            Console.WriteLine("id: " + activity.id);
+            Console.WriteLine("message received: " + streamReader.ActivityCount() +  " id: " + activity.id);
+            if (activity.twitter_entities.media != null) Console.WriteLine("media:" + activity.twitter_entities.media[0].expanded_url);
         }
     }
 }

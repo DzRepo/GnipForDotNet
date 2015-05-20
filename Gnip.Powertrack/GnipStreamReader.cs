@@ -97,10 +97,10 @@ namespace Gnip.Powertrack
             _request.Headers.Add("Accept-Encoding", "gzip");
             _request.Accept = "application/json";
             _request.ContentType = "application/json";
-            _request.ReadWriteTimeout = 10000;
+            _request.ReadWriteTimeout = 30000;
             _request.AllowReadStreamBuffering = false;
 
-            _request.Timeout = 10; //seconds, PowerTrack sends 15-second heartbeat.
+            _request.Timeout = 30; //seconds, PowerTrack sends 15-second heartbeat.
             _asyncCallback = HandleResult;    //Setting handleResult as Callback method...
             _request.BeginGetResponse(_asyncCallback, _request);    //Calling BeginGetResponse on 
             
@@ -122,54 +122,64 @@ namespace Gnip.Powertrack
                 MachineName = ".",
                 RawValue = 0,
             };
-          
 
-            using (HttpWebResponse response = (HttpWebResponse)_request.EndGetResponse(result))
-            using (Stream stream = response.GetResponseStream())
-            using (Stream memory = new MemoryStream())
-            using (new GZipStream(memory, CompressionMode.Decompress))
+            try
             {
-                byte[] compressedBuffer = new byte[Blocksize];
-                // byte[] uncompressedBuffer = new byte[Blocksize];
 
-                if (stream != null && !stream.CanRead)
-                {
-                    Debug.WriteLine(" --- Cannot Read Stream");
-                    if (OnReaderExeception != null)
-                        OnReaderExeception(this, new ApplicationException("Cannot Open Stream"));
-                }
 
-                while (stream != null && stream.CanRead)
+                using (HttpWebResponse response = (HttpWebResponse) _request.EndGetResponse(result))
+                using (Stream stream = response.GetResponseStream())
+                using (Stream memory = new MemoryStream())
+                    // using (new GZipStream(memory, CompressionMode.Decompress))
                 {
-                    
-                    try
+                    byte[] compressedBuffer = new byte[Blocksize];
+                    // byte[] uncompressedBuffer = new byte[Blocksize];
+
+                    if (stream != null && !stream.CanRead)
                     {
-                        int readCount = stream.Read(compressedBuffer, 0, compressedBuffer.Length);
-
-                        // if readCount is 0, then the stream must have disconnected.  Process and abort!
-                        if (readCount == 0)
-                        {
-                            if (OnDisconnect != null) OnDisconnect(this);
-                            break;
-                        }
-                        var outputString = Encoding.UTF8.GetString(compressedBuffer);
-                        ProcessBlock(outputString);
+                        Debug.WriteLine(" --- Cannot Read Stream");
+                        if (OnReaderExeception != null)
+                            OnReaderExeception(this, new ApplicationException("Cannot Open Stream"));
                     }
-                    catch (Exception error)
+
+                    while (stream != null && stream.CanRead)
+                    {
+
+                        try
+                        {
+                            int readCount = stream.Read(compressedBuffer, 0, compressedBuffer.Length);
+
+                            // if readCount is 0, then the stream must have disconnected.  Process and abort!
+                            if (readCount == 0)
+                            {
+                                if (OnDisconnect != null) OnDisconnect(this);
+                                break;
+                            }
+                            var outputString = Encoding.UTF8.GetString(compressedBuffer);
+                            ProcessBlock(outputString);
+                        }
+                        catch (Exception error)
+                        {
+                            if (OnReaderExeception != null)
+                                OnReaderExeception(this, new ApplicationException(error.Message));
+                        }
+                        memory.SetLength(0);
+
+                        // got signal to shut down.  Don't notify of disconnect.
+                        if (_shutDown) break;
+                    }
+                    if (stream != null && !stream.CanRead)
                     {
                         if (OnReaderExeception != null)
-                            OnReaderExeception(this,new ApplicationException(error.Message));
+                            OnReaderExeception(this, new ApplicationException("Can't Read Stream"));
                     }
-                    memory.SetLength(0);
-
-                    // got signal to shut down.  Don't notify of disconnect.
-                    if (_shutDown) break;
                 }
-                if (stream != null && !stream.CanRead)
-                {
-                    if (OnReaderExeception != null)
-                        OnReaderExeception(this, new ApplicationException("Can't Read Stream"));
-                }
+            }
+            catch (Exception ex)
+            {
+                OnReaderExeception(this, new ApplicationException(ex.Message));
+                // Notify the user app that the stream is dead.
+                if (OnDisconnect != null) OnDisconnect(this);
             }
         }
 

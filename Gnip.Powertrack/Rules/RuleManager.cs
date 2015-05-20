@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Text;
-using Gnip.PowerTrack.Stream;
 using Gnip.Utilities;
 using Gnip.Utilities.JsonClasses;
 using Newtonsoft.Json;
@@ -25,11 +24,11 @@ namespace Gnip.Powertrack.Rules
             try
             {
                 ErrorState = false;
-                string content = "";
+                string content;
                 var resultCode = Restful.GetRestResponse("Get", Url, Username, Password, out content);
                 if (resultCode == HttpStatusCode.OK)
                 {
-                    var ruleList = JsonConvert.DeserializeObject<Rules>(content.ToString()).rules;
+                    var ruleList = JsonConvert.DeserializeObject<Rules>(content).rules;
                     return ruleList;
                 }
                 else
@@ -52,7 +51,7 @@ namespace Gnip.Powertrack.Rules
             try
             {
                 var deleteJson = rules.ToJson();
-                string responseString = "";
+                string responseString;
 
                 var responseCode = Restful.GetRestResponse(
                     "DELETE",
@@ -66,7 +65,7 @@ namespace Gnip.Powertrack.Rules
                     return true;
                 else
                 {
-                    this.ErrorMessage = "Delete, returned an HTTP Status Code " + responseCode.ToString();
+                    ErrorMessage = "Delete, returned an HTTP Status Code " + responseCode.ToString();
                     return false;
                 }
             }
@@ -115,7 +114,7 @@ namespace Gnip.Powertrack.Rules
                 }
 
                 var addJson = sb.ToString();
-                string responseString = "";
+                string responseString;
 
                 var responseCode = Restful.GetRestResponse(
                     "POST",
@@ -129,7 +128,7 @@ namespace Gnip.Powertrack.Rules
                     return true;
                 else
                 {
-                    this.ErrorMessage = "AddRules, returned an HTTP Status Code " + responseCode.ToString();
+                    ErrorMessage = "AddRules, returned an HTTP Status Code " + responseCode.ToString();
                     return false;
                 }
             }

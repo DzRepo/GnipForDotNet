@@ -1,5 +1,5 @@
 ﻿using System;
-using Newtonsoft.Json;
+using Newtonsoft.Json;  // necessary due to use of reserved "object" as name of embedded object data below.
 
 namespace Gnip.Utilities.JsonClasses
 {
@@ -27,6 +27,6 @@ namespace Gnip.Utilities.JsonClasses
         public string twitter_lang;
         public long retweetCount;
         public Gnip gnip;
+        public Activity twitter_quoted_status;  // will contain full Activity Object of Tweet that was quoted
     }
-    
 }

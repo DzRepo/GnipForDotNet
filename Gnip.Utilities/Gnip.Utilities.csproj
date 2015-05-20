@@ -59,6 +59,7 @@
     <Compile Include="JsonClasses\KloutProfile.cs" />
     <Compile Include="JsonClasses\KloutTopic.cs" />
     <Compile Include="JsonClasses\Language.cs" />
+    <Compile Include="JsonClasses\Link.cs" />
     <Compile Include="JsonClasses\Location.cs" />
     <Compile Include="JsonClasses\Media.cs" />
     <Compile Include="JsonClasses\ProfileLocations.cs" />

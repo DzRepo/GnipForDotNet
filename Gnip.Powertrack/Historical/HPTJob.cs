@@ -97,11 +97,10 @@ namespace Gnip.Powertrack.Historical
         public List<HptJobInfo> GetJobs()
         {
             ErrorState = false;
-            string jsonResponse = "";
-            List<HptJobInfo> returnValue = null;
-            
+
             try
             {
+                var jsonResponse = "";
                 var responseCode = Utilities.Restful.GetRestResponse(
                     "GET", 
                     jobStatusURL(), 
@@ -177,11 +176,9 @@ namespace Gnip.Powertrack.Historical
                     }
                     return JobList;
                 }
-                else
-                {
-                    ErrorState = true;
-                    ErrorMessage = "Response returned: " + responseCode.ToString();
-                }
+                // If we're here... something has gone wrong...
+                ErrorState = true;
+                ErrorMessage = "Response returned: " + responseCode.ToString();
             }
             catch (Exception ex)
             {
