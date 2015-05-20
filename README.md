@@ -4,7 +4,7 @@ Gnip for .NET is a solution made up of individual projects that can be used to a
 Support for PowerTrack & SearchAPI is complete.
 Historical PowerTrack job management is complete.  Downloading of Historical PowerTrack files is still in development.
 
-The projects utilize [JSON.NET](http://www.newtonsoft.com/json) for deserializing into an Activity and associated objects and serializing commands into JSON objects.
+The projects use [JSON.NET](http://www.newtonsoft.com/json) for deserializing into an Activity object and serializing text commands into JSON objects.
 
 **Projects included in the solution:**
 
