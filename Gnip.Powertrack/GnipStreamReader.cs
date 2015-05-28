@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using System.IO.Compression;
+using System.Linq;
 using System.Net;
 using System.Text;
 using Gnip.Utilities.JsonClasses;
@@ -9,10 +9,8 @@ using Newtonsoft.Json;
 
 namespace Gnip.Powertrack
 {
-
     public class GnipStreamReader
     {
-
         // size of read block - larger is more efficient, but smaller is better for less active streams.  
         // 1600 is rough average size of activities.
 
@@ -20,6 +18,9 @@ namespace Gnip.Powertrack
        
         public delegate void Received(object sender, Activity activity);
         public event Received OnActivityReceived;
+
+        public delegate void ReceivedJson(object sender, string activityJson);
+        public event ReceivedJson OnJsonReceived;
 
         public delegate void Disconnected(object sender);
         public event Disconnected OnDisconnect;
@@ -32,6 +33,9 @@ namespace Gnip.Powertrack
 
         private string _streamName = "";
         private StringBuilder rawBlock = new StringBuilder();
+
+        private char leftBracket = "{".ToCharArray()[0];
+        private char rightBracket = "}".ToCharArray()[0];
                 
         private double _activitiesReceived;
 
@@ -125,11 +129,9 @@ namespace Gnip.Powertrack
 
             try
             {
-
-
-                using (HttpWebResponse response = (HttpWebResponse) _request.EndGetResponse(result))
-                using (Stream stream = response.GetResponseStream())
-                using (Stream memory = new MemoryStream())
+                using (var response = (HttpWebResponse) _request.EndGetResponse(result))
+                using (var stream = response.GetResponseStream())
+                using (var memory = new MemoryStream())
                     // using (new GZipStream(memory, CompressionMode.Decompress))
                 {
                     byte[] compressedBuffer = new byte[Blocksize];
@@ -177,7 +179,8 @@ namespace Gnip.Powertrack
             }
             catch (Exception ex)
             {
-                OnReaderExeception(this, new ApplicationException(ex.Message));
+                if (OnReaderExeception != null) 
+                    OnReaderExeception(this, new ApplicationException(ex.Message));
                 // Notify the user app that the stream is dead.
                 if (OnDisconnect != null) OnDisconnect(this);
             }
@@ -192,7 +195,7 @@ namespace Gnip.Powertrack
         /// Takes block of data that has been read from the stream and processes it into Activities
         /// </summary>
         /// <param name="outputString"></param>
-        private void ProcessBlock(string outputString)
+        protected virtual void ProcessBlock(string outputString)
         {
             
             try
@@ -209,14 +212,19 @@ namespace Gnip.Powertrack
                     var rawText = rows[row];
                     if (rawText.Length > 0)
                     {
-                        // does it pass the basic test of a JSON Activity record?
-                        if (rawText.StartsWith(@"{""id""") && rawText.EndsWith(@"}"))
+                        // does it pass the basic test of a JSON Activity record 
+                        //(does the number of left brackets = the number of right brackets?
+                        if (rawText.Count(lb => lb == leftBracket) == rawText.Count(lb => lb == rightBracket)  )
                         {
                             try
                             {
-                                Activity activity;
-                                activity = JsonConvert.DeserializeObject<Activity>(rawText);
-                                if (OnActivityReceived != null) OnActivityReceived(this, activity);
+
+                                if (OnActivityReceived != null)
+                                    OnActivityReceived(this, JsonConvert.DeserializeObject<Activity>(rawText));
+                                
+                                if (OnJsonReceived != null)
+                                    OnJsonReceived(this, rawText);
+
                                 _activitiesPerSec.Increment();
                                 _activitiesReceived ++;
                             }
@@ -233,17 +241,22 @@ namespace Gnip.Powertrack
                                 }
                                 else
                                 {
-                                    Debug.WriteLine("JSON Deserialize error - Line " + row + " of " + rows.Length + " :" + rawText + " Message: " + jsonException.Message);
+                                    Debug.WriteLine("JSON Deserialize error - Line " + row + " of " + rows.Length + " :" +
+                                                    rawText + " Message: " + jsonException.Message);
                                     // Otherwise, surface error.
                                     if (OnReaderExeception != null)
-                                        OnReaderExeception(this, new ApplicationException("Json Deserialize error:" + rawText));
+                                        OnReaderExeception(this,
+                                            new ApplicationException("Json Deserialize error:" + rawText));
                                 }
                             }
                             catch (Exception ex)
                             {
-                                Debug.WriteLine("General error in deserialize - Line " + row + " of " + rows.Length + " :" + rawText);
+                                Debug.WriteLine("General error in deserialize - Line " + row + " of " + rows.Length +
+                                                " :" + rawText);
                                 if (OnReaderExeception != null)
-                                    OnReaderExeception(this, new ApplicationException("Json Deserialize error:" + rawText + " message= " + ex.Message));
+                                    OnReaderExeception(this,
+                                        new ApplicationException("Json Deserialize error:" + rawText + " message= " +
+                                                                 ex.Message));
                             }
                         }
                         else

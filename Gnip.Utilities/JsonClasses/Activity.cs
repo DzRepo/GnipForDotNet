@@ -1,5 +1,6 @@
 ﻿using System;
 using Newtonsoft.Json;  // necessary due to use of reserved "object" as name of embedded object data below.
+// ReSharper disable InconsistentNaming
 
 namespace Gnip.Utilities.JsonClasses
 {
@@ -20,7 +21,7 @@ namespace Gnip.Utilities.JsonClasses
         public string objectType;
         // object is a reserved word, so need to indicate it's JSON name via attribute.
         [JsonProperty("object")]
-        public ActivityObject activityObject;
+        public Activity activityObject;
         public DateTime postedTime;
         public long favoritesCount;
         public string twitter_filter_level;

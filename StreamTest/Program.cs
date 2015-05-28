@@ -7,10 +7,11 @@ namespace StreamTest
 {
     class Program
     {
-        const string UserName = "USERNANE";
+        const string UserName = "USERNAME";
         const string Password = "PASSWORD";
         const string AccountName = "ACCOUNTNAME";
         const string StreamLabel = "STREAMNAME";
+
         private static GnipStreamReader streamReader;
         static void Main()
         {
@@ -19,11 +20,16 @@ namespace StreamTest
             streamReader.OnReaderExeception += streamReader_OnReaderException;
             streamReader.OnDisconnect += streamReader_OnDisconnect;
             streamReader.Connect(AccountName, UserName, Password, StreamLabel);
-
+            
             while (true)
             {
                     Thread.Sleep(5000);
             }
+        }
+
+        static void streamReader_OnJsonReceived(object sender, string activityJson)
+        {
+            Console.WriteLine(streamReader.ActivityCount() + "  JSON: " + activityJson.Substring(0,80));
         }
 
         private static void streamReader_OnDisconnect(object sender)
@@ -40,8 +46,11 @@ namespace StreamTest
 
         static void streamReader_OnActivityReceived(object sender, Activity activity)
         {
-            Console.WriteLine("message received: " + streamReader.ActivityCount() +  " id: " + activity.id);
-            if (activity.twitter_entities.media != null) Console.WriteLine("media:" + activity.twitter_entities.media[0].expanded_url);
+            Console.WriteLine("Activity received: " + streamReader.ActivityCount() +  " id: " + activity.id);
+            if (activity.activityObject != null)
+            {
+                Console.WriteLine(" Object Tweet ID:" + activity.activityObject.id);
+            }
         }
     }
 }
