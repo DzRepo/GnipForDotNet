@@ -10,7 +10,7 @@ namespace StreamTest
         const string UserName = "USERNAME";
         const string Password = "PASSWORD";
         const string AccountName = "ACCOUNTNAME";
-        const string StreamLabel = "STREAMNAME";
+        const string StreamLabel = "STREAMLABEL";
 
         private static GnipStreamReader streamReader;
         static void Main()
@@ -29,7 +29,7 @@ namespace StreamTest
 
         static void streamReader_OnJsonReceived(object sender, string activityJson)
         {
-            Console.WriteLine(streamReader.ActivityCount() + "  JSON: " + activityJson.Substring(0,80));
+            Console.Write("J");
         }
 
         private static void streamReader_OnDisconnect(object sender)
@@ -46,11 +46,7 @@ namespace StreamTest
 
         static void streamReader_OnActivityReceived(object sender, Activity activity)
         {
-            Console.WriteLine("Activity received: " + streamReader.ActivityCount() +  " id: " + activity.id);
-            if (activity.activityObject != null)
-            {
-                Console.WriteLine(" Object Tweet ID:" + activity.activityObject.id);
-            }
+            // Console.Write("A");
         }
     }
 }

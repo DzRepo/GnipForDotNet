@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gnip.SearchAPI", "Gnip.Sear
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamTest", "StreamTest\StreamTest.csproj", "{A91EC757-D7D8-4624-A0DE-EC4BFA8CB23C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gnip4AzureEventHubPub", "Gnip4AzureEventHubPub\Gnip4AzureEventHubPub.csproj", "{BF039829-EFE3-4A54-9458-E5988B1DE4C9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureEventHubProxy", "AzureEventHubProxy\AzureEventHubProxy.csproj", "{96E4F343-F615-4CB8-A4B2-864E87C8A51B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,10 +53,10 @@ Global
 		{A91EC757-D7D8-4624-A0DE-EC4BFA8CB23C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A91EC757-D7D8-4624-A0DE-EC4BFA8CB23C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A91EC757-D7D8-4624-A0DE-EC4BFA8CB23C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BF039829-EFE3-4A54-9458-E5988B1DE4C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BF039829-EFE3-4A54-9458-E5988B1DE4C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BF039829-EFE3-4A54-9458-E5988B1DE4C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BF039829-EFE3-4A54-9458-E5988B1DE4C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96E4F343-F615-4CB8-A4B2-864E87C8A51B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96E4F343-F615-4CB8-A4B2-864E87C8A51B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96E4F343-F615-4CB8-A4B2-864E87C8A51B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96E4F343-F615-4CB8-A4B2-864E87C8A51B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

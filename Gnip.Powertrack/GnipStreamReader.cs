@@ -14,7 +14,7 @@ namespace Gnip.Powertrack
         // size of read block - larger is more efficient, but smaller is better for less active streams.  
         // 1600 is rough average size of activities.
 
-        const int Blocksize = (10 * 1600);
+        const int Blocksize = (25 * 1600);
        
         public delegate void Received(object sender, Activity activity);
         public event Received OnActivityReceived;
@@ -132,10 +132,8 @@ namespace Gnip.Powertrack
                 using (var response = (HttpWebResponse) _request.EndGetResponse(result))
                 using (var stream = response.GetResponseStream())
                 using (var memory = new MemoryStream())
-                    // using (new GZipStream(memory, CompressionMode.Decompress))
                 {
                     byte[] compressedBuffer = new byte[Blocksize];
-                    // byte[] uncompressedBuffer = new byte[Blocksize];
 
                     if (stream != null && !stream.CanRead)
                     {
@@ -207,56 +205,27 @@ namespace Gnip.Powertrack
                 rawBlock.Clear();  // reset rawBlock
 
                 // process each line of the array
-                for (int row = 0; row < rows.Length; row++)
+                for (var row = 0; row < rows.Length; row++)
                 {
                     var rawText = rows[row];
                     if (rawText.Length > 0)
                     {
-                        // does it pass the basic test of a JSON Activity record 
-                        //(does the number of left brackets = the number of right brackets?
-                        if (rawText.Count(lb => lb == leftBracket) == rawText.Count(lb => lb == rightBracket)  )
+                        Activity activity;
+                        if (TryDeserializeActivity(rawText, out activity))
                         {
                             try
                             {
-
-                                if (OnActivityReceived != null)
-                                    OnActivityReceived(this, JsonConvert.DeserializeObject<Activity>(rawText));
-                                
-                                if (OnJsonReceived != null)
-                                    OnJsonReceived(this, rawText);
+                                if (OnActivityReceived != null) OnActivityReceived(this, activity);
+                                if (OnJsonReceived != null) OnJsonReceived(this, rawText);
 
                                 _activitiesPerSec.Increment();
                                 _activitiesReceived ++;
                             }
-                            catch (JsonException jsonException)
-                            {
-                                Debug.WriteLine("Deserialize not successful.");
-                                // Didn't deserialize, so...  
-
-                                // is it the last row?  if so, pass it forward.
-                                if (row == (rows.Length - 1))
-                                {
-                                    Debug.WriteLine("incomplete block detected - passing data to next read");
-                                    rawBlock.Append(rawText);
-                                }
-                                else
-                                {
-                                    Debug.WriteLine("JSON Deserialize error - Line " + row + " of " + rows.Length + " :" +
-                                                    rawText + " Message: " + jsonException.Message);
-                                    // Otherwise, surface error.
-                                    if (OnReaderExeception != null)
-                                        OnReaderExeception(this,
-                                            new ApplicationException("Json Deserialize error:" + rawText));
-                                }
-                            }
                             catch (Exception ex)
                             {
-                                Debug.WriteLine("General error in deserialize - Line " + row + " of " + rows.Length +
-                                                " :" + rawText);
+                                Debug.WriteLine("General error in activity processing - row " + row + " of block " + rows.Length + " :" + rawText);
                                 if (OnReaderExeception != null)
-                                    OnReaderExeception(this,
-                                        new ApplicationException("Json Deserialize error:" + rawText + " message= " +
-                                                                 ex.Message));
+                                    OnReaderExeception(this, new ApplicationException("Activity processsing error:" + rawText + " message= " + ex.Message));
                             }
                         }
                         else
@@ -272,24 +241,38 @@ namespace Gnip.Powertrack
                                 if (row != 0)
                                 {
                                     Debug.WriteLine("Unknown text in line " + row + " of " + rows.Length + " :" + rawText);
-                                    if (OnReaderExeception != null)
-                                        OnReaderExeception(this, new ApplicationException(rawText));
+                                    if (OnReaderExeception != null) OnReaderExeception(this, new ApplicationException(rawText));
                                 }
                             }
                         }
                     }
                     else
                     {
-                        // blank line?  should be a heart beat.
+                        // blank line?  should be a heart beat.  Usually first row.
                         Debug.WriteLine("*** Heartbeat on line " + row + " of " + rows.Length);
                     }
                 }
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("Unknown Error:" + ex.Message);
+                Debug.WriteLine("Unknown Error in streamreader:" + ex.Message);
                 if (OnReaderExeception != null) OnReaderExeception(this, new ApplicationException(ex.Message));
             }
+        }
+
+        // determines if a row of text can be converted to an activity record, returning true if possible, false if exception generated.
+        private bool TryDeserializeActivity(string rawText, out Activity activity)
+        {
+            // does it end in a }?  If not, return false instead of attempting deserialize
+            if (rawText.EndsWith("}"))
+            try
+            {
+                activity = JsonConvert.DeserializeObject<Activity>(rawText);
+                return true;
+            }
+            catch (Exception) { }
+            activity = null;
+            return false;
         }
     }
 }
