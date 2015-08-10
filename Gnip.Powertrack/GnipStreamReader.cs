@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Text;
 using Gnip.Utilities.JsonClasses;
@@ -14,7 +13,7 @@ namespace Gnip.Powertrack
         // size of read block - larger is more efficient, but smaller is better for less active streams.  
         // 1600 is rough average size of activities.
 
-        const int Blocksize = (25 * 1600);
+        const int Blocksize = (1 * 1600);
        
         public delegate void Received(object sender, Activity activity);
         public event Received OnActivityReceived;
@@ -34,9 +33,6 @@ namespace Gnip.Powertrack
         private string _streamName = "";
         private StringBuilder rawBlock = new StringBuilder();
 
-        private char leftBracket = "{".ToCharArray()[0];
-        private char rightBracket = "}".ToCharArray()[0];
-                
         private double _activitiesReceived;
 
         public GnipStreamReader()
@@ -270,7 +266,10 @@ namespace Gnip.Powertrack
                 activity = JsonConvert.DeserializeObject<Activity>(rawText);
                 return true;
             }
-            catch (Exception) { }
+            catch (Exception)
+            {
+                // ignored
+            }
             activity = null;
             return false;
         }

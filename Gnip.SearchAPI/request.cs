@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using Gnip.Utilities;
 using Gnip.Utilities.JsonClasses;
@@ -24,19 +25,15 @@ namespace Gnip.SearchAPI
     }
     public class Request
     {
-        public Request()
-        {
-            MaxResults = 500;
-        }
-
-        public string AccountName { get; set; }
-        public string StreamName { get; set; }
-        public string Password { get; set; }
-        public string Username { get; set; }
+        string AccountName { get; set; }
+        string StreamName { get; set; }
+        string Password { get; set; }
+        string Username { get; set; }
         public bool ErrorState { get; set; }
         public string ErrorMessage { get; set; }
-        public string Query { get; set; }
-        public int MaxResults { get; set; }
+        public string QueryJson { get; set; }
+        string Query { get; set; }
+        // int MaxResults { get; set; }
 
         private string searchJson { get; set; }
     
@@ -47,6 +44,13 @@ namespace Gnip.SearchAPI
             get { return (nextToken != null); }
         }
 
+        public Request(string accountName, string userName,  string password, string streamName)
+        {
+            AccountName = accountName;
+            Username = userName;
+            Password = password;
+            StreamName = streamName;
+        }
 
         public void Reset()
         {
@@ -55,12 +59,8 @@ namespace Gnip.SearchAPI
             ErrorState = false;
         }
 
-        public Counts GetCounts()
+        public Counts GetCounts(string Query, string bucket = "day", DateTime? fromDateTime = null, DateTime? toDateTime = null)
         {
-            if (Username == null || Password == null || StreamName == null || AccountName == null)
-            {
-                throw new ArgumentNullException(null, "Required parameter missing");
-            }
             var endPoint = @"https://search.gnip.com/accounts/" + AccountName + "/search/" + StreamName + "/counts.json";
             try
             {
@@ -69,11 +69,14 @@ namespace Gnip.SearchAPI
 
                 var searchData = new SearchPost();
                 searchData.query = Query;
-                searchData.maxResults = MaxResults;
+                searchData.maxResults = 0;
                 searchData.publisher = "twitter";
-                searchData.bucket = "day";
+                searchData.bucket = bucket;
+               if (fromDateTime != null) searchData.fromDate = fromDateTime.GetValueOrDefault();
+               if (toDateTime != null) searchData.toDate = toDateTime.GetValueOrDefault();
                 if (hasMore) searchData.next = nextToken;
                 var postSearch = BuildQueryJson(searchData);
+                QueryJson = postSearch;
 
                 var resultCode = Restful.GetRestResponse("Post", endPoint, Username, Password, out content, postSearch);
                 if (resultCode == HttpStatusCode.OK)
@@ -101,13 +104,8 @@ namespace Gnip.SearchAPI
             
         }
        
-        public List<Activity> GetResults()
+        public List<Activity> GetResults(string Query,DateTime? fromDateTime = null, DateTime? toDateTime = null, int maxResults = 500)
         {
-            if (Username == null || Password == null || StreamName == null || AccountName == null)
-            {
-                throw new ArgumentNullException(null, "Required parameter missing");
-            }
-
             var endPoint = @"https://search.gnip.com/accounts/" + AccountName + "/search/" + StreamName + ".json";
             try
             {
@@ -116,21 +114,20 @@ namespace Gnip.SearchAPI
 
                 var searchData = new SearchPost();
                 searchData.query = Query;
-                searchData.maxResults = MaxResults;
+                searchData.maxResults = maxResults;
                 searchData.publisher = "twitter";
+                searchData.fromDate = fromDateTime.GetValueOrDefault();
+                searchData.toDate = toDateTime.GetValueOrDefault();
                 if (hasMore) searchData.next = nextToken;
                 searchData.bucket = null;
                 var postSearch = BuildQueryJson(searchData);
-               
+                QueryJson = postSearch;
                 var resultCode = Restful.GetRestResponse("Post", endPoint, Username, Password, out content, postSearch);
                 if (resultCode == HttpStatusCode.OK)
                 {
                     var searchResult = JsonConvert.DeserializeObject<Results>(content.ToString());
                     nextToken = searchResult.next;
-                    if (searchResult.results != null)
-                        return searchResult.results.ToList();
-                    // else (no data to return, but not an error)
-                    return null;
+                    return searchResult.results != null ? searchResult.results.ToList() : null;
                 }
                 else
                 {
@@ -147,7 +144,7 @@ namespace Gnip.SearchAPI
             }
         }
 
-        private string BuildQueryJson(SearchPost searchPost)
+        private static string BuildQueryJson(SearchPost searchPost)
         {
             // custom serializer to prevent the escaping of quotes on propertynames
             var sb = new StringBuilder();
@@ -160,17 +157,20 @@ namespace Gnip.SearchAPI
                 jw.WriteValue(searchPost.query);
                 jw.WritePropertyName("publisher", false);
                 jw.WriteValue(searchPost.publisher);
-                jw.WritePropertyName("maxResults", false);
-                jw.WriteValue(searchPost.maxResults.ToString());
+                if (searchPost.maxResults > 0)
+                {
+                    jw.WritePropertyName("maxResults", false);
+                    jw.WriteValue(searchPost.maxResults.ToString());
+                }
                 if (searchPost.fromDate > DateTime.Parse("1/1/0001"))
                 {
                     jw.WritePropertyName("fromDate", false);
-                    jw.WriteValue(searchPost.fromDate);
+                    jw.WriteValue(AsUtcString(searchPost.fromDate));
                 }
                 if (searchPost.toDate > DateTime.Parse("1/1/0001"))
                 {
                     jw.WritePropertyName("toDate", false);
-                    jw.WriteValue(searchPost.toDate);
+                    jw.WriteValue(AsUtcString(searchPost.toDate));
                 }
                 if (searchPost.next != null)
                 {
@@ -185,6 +185,15 @@ namespace Gnip.SearchAPI
                 jw.WriteEndObject();
                 return sb.ToString();
             }
+        }
+
+        private static string AsUtcString(DateTime inDate)
+        {
+            return inDate.Year.ToString() +
+                   inDate.Month.ToString().PadLeft(2, "0".ToCharArray()[0]) +
+                   inDate.Day.ToString().PadLeft(2, "0".ToCharArray()[0]) +
+                   inDate.Hour.ToString().PadLeft(2, "0".ToCharArray()[0]) +
+                   inDate.Minute.ToString().PadLeft(2, "0".ToCharArray()[0]);
         }
 
     }
