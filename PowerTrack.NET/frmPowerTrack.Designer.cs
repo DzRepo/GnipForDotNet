@@ -45,8 +45,6 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.tsMessage = new System.Windows.Forms.ToolStripStatusLabel();
-            this.tsStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.tabContainer = new System.Windows.Forms.TabControl();
             this.tabSettings = new System.Windows.Forms.TabPage();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -81,6 +79,9 @@
             this.tabStream = new System.Windows.Forms.TabPage();
             this.btnStreamToggle = new System.Windows.Forms.Button();
             this.dgvStream = new System.Windows.Forms.DataGridView();
+            this.tsMessage = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tsStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.statusStrip1.SuspendLayout();
             this.tabContainer.SuspendLayout();
             this.tabSettings.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -204,28 +205,15 @@
             // 
             this.statusStrip1.AllowMerge = false;
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
-            this.statusStrip1.Location = new System.Drawing.Point(0, 566);
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsMessage,
+            this.tsStatus});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 560);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Padding = new System.Windows.Forms.Padding(2, 0, 21, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(732, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(732, 28);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
-            // 
-            // tsMessage
-            // 
-            this.tsMessage.BorderStyle = System.Windows.Forms.Border3DStyle.Adjust;
-            this.tsMessage.ForeColor = System.Drawing.Color.Black;
-            this.tsMessage.Name = "tsMessage";
-            this.tsMessage.Size = new System.Drawing.Size(168, 25);
-            this.tsMessage.Text = "Messages go here...";
-            // 
-            // tsStatus
-            // 
-            this.tsStatus.Name = "tsStatus";
-            this.tsStatus.Size = new System.Drawing.Size(537, 25);
-            this.tsStatus.Spring = true;
-            this.tsStatus.Text = "Status goes here...";
-            this.tsStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // tabContainer
             // 
@@ -238,7 +226,7 @@
             this.tabContainer.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabContainer.Name = "tabContainer";
             this.tabContainer.SelectedIndex = 0;
-            this.tabContainer.Size = new System.Drawing.Size(732, 542);
+            this.tabContainer.Size = new System.Drawing.Size(732, 536);
             this.tabContainer.TabIndex = 2;
             this.tabContainer.TabIndexChanged += new System.EventHandler(this.tabContainer_TabIndexChanged);
             // 
@@ -250,7 +238,7 @@
             this.tabSettings.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabSettings.Name = "tabSettings";
             this.tabSettings.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabSettings.Size = new System.Drawing.Size(724, 509);
+            this.tabSettings.Size = new System.Drawing.Size(724, 503);
             this.tabSettings.TabIndex = 4;
             this.tabSettings.Text = "Settings";
             // 
@@ -374,7 +362,7 @@
             this.tabRules.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabRules.Name = "tabRules";
             this.tabRules.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabRules.Size = new System.Drawing.Size(724, 497);
+            this.tabRules.Size = new System.Drawing.Size(724, 509);
             this.tabRules.TabIndex = 0;
             this.tabRules.Text = "Rules";
             // 
@@ -650,7 +638,7 @@
             this.tabStream.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabStream.Name = "tabStream";
             this.tabStream.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabStream.Size = new System.Drawing.Size(724, 497);
+            this.tabStream.Size = new System.Drawing.Size(724, 509);
             this.tabStream.TabIndex = 1;
             this.tabStream.Text = "Stream";
             // 
@@ -684,6 +672,19 @@
             this.dgvStream.TabIndex = 0;
             this.dgvStream.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dgvStream_DataError);
             // 
+            // tsMessage
+            // 
+            this.tsMessage.ForeColor = System.Drawing.Color.OrangeRed;
+            this.tsMessage.Name = "tsMessage";
+            this.tsMessage.Size = new System.Drawing.Size(0, 23);
+            this.tsMessage.Click += new System.EventHandler(this.toolStripStatusLabel1_Click);
+            // 
+            // tsStatus
+            // 
+            this.tsStatus.Name = "tsStatus";
+            this.tsStatus.Size = new System.Drawing.Size(0, 23);
+            this.tsStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // frmPowerTrack
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -697,6 +698,8 @@
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "frmPowerTrack";
             this.Text = "PowerTrack.NET";
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.tabContainer.ResumeLayout(false);
             this.tabSettings.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
@@ -741,8 +744,8 @@
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.TabPage tabSettings;
-        private System.Windows.Forms.ToolStripStatusLabel tsMessage;
-        private System.Windows.Forms.ToolStripStatusLabel tsStatus;
+        //private System.Windows.Forms.ToolStripStatusLabel tsMessage;
+        // private System.Windows.Forms.ToolStripStatusLabel tsStatus;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TextBox tbStreamName;
         private System.Windows.Forms.Label label4;
@@ -770,6 +773,8 @@
         private System.Windows.Forms.CheckedListBox clbGnip;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.CheckedListBox clbTwitterEntities;
+        private System.Windows.Forms.ToolStripStatusLabel tsMessage;
+        private System.Windows.Forms.ToolStripStatusLabel tsStatus;
     }
 }
 

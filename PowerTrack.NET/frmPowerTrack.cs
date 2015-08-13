@@ -297,6 +297,7 @@ namespace PowerTrack.NET
                 ruleData = rm.GetRules();
                 if (ruleData == null)
                     tsMessage.Text = "Error loading rules: " + rm.ErrorMessage;
+            
                 else
                 {
                     dsRules.Tables["Rules"].Clear();
@@ -312,7 +313,7 @@ namespace PowerTrack.NET
                     dsRules.AcceptChanges();
 
                     // dgRules.Show();
-                    tsMessage.Text = "Rules loaded.";
+                   // tsMessage.Text = "Rules loaded.";
                 }
                 DataLoading = false;
             }
@@ -588,6 +589,11 @@ namespace PowerTrack.NET
                                                         tbPassword.Text.Length > 0 &&
                                                         tbAccountName.Text.Length > 0 &&
                                                         tbStreamName.Text.Length > 0);
+        }
+
+        private void toolStripStatusLabel1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
