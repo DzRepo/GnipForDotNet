@@ -22,7 +22,9 @@ namespace Gnip.UsageAPI
 
             // https://account-api.gnip.com/accounts/[your_account_name]/usage.json
 
-            var endPoint = @"https://account-api.gnip.com/accounts/" + AccountName + "/usage.json";
+            // https://gnip-api.twitter.com/metrics/usage/accounts/[account-name].json
+
+            var endPoint = @"https://gnip-api.twitter.com/metrics/usage/accounts/" + AccountName + ".json";
 
             try
             {

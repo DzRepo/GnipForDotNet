@@ -13,7 +13,7 @@ namespace Gnip.Powertrack
         // size of read block - larger is more efficient, but smaller is better for less active streams.  
         // 1600 is rough average size of activities.
 
-        const int Blocksize = (10 * 1600);
+        const int Blocksize = 500; // (2 * 1600);
        
         public delegate void Received(object sender, Activity activity);
         public event Received OnActivityReceived;

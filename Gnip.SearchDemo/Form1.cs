@@ -17,12 +17,11 @@ namespace Gnip.SearchDemo
        }
 
         private void InitalizeRequest()
-        {
-            request = new Request(tbAccountName.Text, tbUsername.Text, tbPassword.Text, tbStreamName.Text);
-        }
+        {}
 
         private void btnGetResults_Click(object sender, EventArgs e)
         {
+            CreateRequest();
             btnGetResults.Enabled = false;
             btnGetResults.Refresh();
             if (request == null) InitalizeRequest();
@@ -54,6 +53,20 @@ namespace Gnip.SearchDemo
             btnGetResults.Refresh();
         }
 
+        private void CreateRequest()
+        {
+            // use GroupBox enabled as a state flag (cough / #hack)
+            if (gbSearchEndPoint.Enabled)
+            {
+                gbSearchEndPoint.Enabled = false;
+                if (rbFAS.Checked)
+                    request = new Request(tbAccountName.Text, tbUsername.Text, tbPassword.Text, tbStreamName.Text,
+                        Search_Type.SearchFullArchive);
+                else
+                    request = new Request(tbAccountName.Text, tbUsername.Text, tbPassword.Text, tbStreamName.Text);
+            }
+        }
+
         private void Print(Activity activity)
         {
             tbResults.Text += activity.postedTime.ToShortDateString() + " " +   activity.body + Environment.NewLine;
@@ -68,11 +81,12 @@ namespace Gnip.SearchDemo
             tbResults.Clear();
             request.Reset();
             btnGetResults.Text = "Get Results";
-            InitalizeRequest();
+            gbSearchEndPoint.Enabled = true;
         }
 
         private void btnGetCounts_Click(object sender, EventArgs e)
         {
+            CreateRequest();
             btnGetCounts.Enabled = false;
             btnGetCounts.Refresh();
             tbResults.Clear();
@@ -115,24 +129,64 @@ namespace Gnip.SearchDemo
             }
             else
             {
-                tbResults.Text = "Account: " + currentUsage.account + Environment.NewLine;
-                tbResults.Text += "Status:" + currentUsage.account.status + Environment.NewLine;
-                tbResults.Text += "Bucket:" + currentUsage.bucket + Environment.NewLine;
+                tbResults.Text = "Account: " + currentUsage.account.name + Environment.NewLine;
+                tbResults.Text += "Bucket: " + currentUsage.bucket + Environment.NewLine;
+                if (currentUsage.fromDate != null)
+                    tbResults.Text += "From Date: " + currentUsage.fromDate + Environment.NewLine;
+                if (currentUsage.toDate != null)
+                    tbResults.Text += "  To Date: " + currentUsage.toDate + Environment.NewLine;
+
+                tbResults.Text += "  By Publisher Info" + Environment.NewLine;
                 foreach (var publisher in currentUsage.publishers)
                 {
-                    tbResults.Text += "  Publisher:" + publisher.name + Environment.NewLine;
-                    tbResults.Text += "  Projected Activities" + publisher.projected.activities + Environment.NewLine; ;
+                    tbResults.Text += "  ** Publisher: " + publisher.type + Environment.NewLine;
+                    if (publisher.projected != null)
+                        tbResults.Text += "  Projected Activities: " + publisher.projected.activities + Environment.NewLine; ;
+                    tbResults.Text += "    *** Product Usage *" + Environment.NewLine;
                     foreach (var product in publisher.products)
                     {
-                        tbResults.Text += "    Product:" + product.name + Environment.NewLine;
-                        tbResults.Text += "    Projected Activities" + product.projected.activities + Environment.NewLine; ;
-                        
+                        tbResults.Text += "     **** Product: " + product.type + Environment.NewLine;
+                        if (product.endpoints != null)
+                            foreach (var endpoint in product.endpoints)
+                            {
+                                tbResults.Text += "       ***** Type: " + endpoint.type + Environment.NewLine;
+                                if (endpoint.projected != null)
+                                {
+                                    tbResults.Text += "        activities: " + endpoint.projected.activities + Environment.NewLine;
+                                    tbResults.Text += "        timeperiod: " + endpoint.projected.timePeriod + Environment.NewLine;
+                                }
+                            }
+                        if (publisher.used != null)
+                        {
+                            tbResults.Text += "   **** Per Publisher Usage" + Environment.NewLine;
+                            foreach (var use in publisher.used)
+                            {
+                                tbResults.Text += "        activities: " + use.activities + Environment.NewLine;
+                                tbResults.Text += "        timeperiod: " + use.timePeriod + Environment.NewLine;
+                                if (use.days > 0)
+                                    tbResults.Text += "        days used: " + use.days + Environment.NewLine;
+                                if (use.jobs > 0)
+                                    tbResults.Text += "        jobs created: " + use.jobs + Environment.NewLine;
+
+                            }
+                        }
+
                     }
+                    tbResults.Text += "  ** Aggregate Publisher Usage" + Environment.NewLine;
+                        
                     foreach (var used in publisher.used)
                     {
-                        tbResults.Text += "    Days used from :" + used.fromDate + " to " + used.toDate + ": " + used.days + Environment.NewLine;
-                        tbResults.Text += "    Activities Used" + used.activities + Environment.NewLine;
-
+                        tbResults.Text += "    Time Period: " + used.timePeriod + Environment.NewLine;
+                        if (used.activities > 0)
+                            tbResults.Text += "      Activities Used: " + used.activities + Environment.NewLine;
+                        if (used.historicalPowertrackDays > 0)
+                            tbResults.Text += "      HPT Days Used: " + used.historicalPowertrackDays + Environment.NewLine;
+                        if (used.historicalPowertrackJobs > 0)
+                            tbResults.Text += "      HPT Jobs Used: " + used.historicalPowertrackJobs + Environment.NewLine;
+                        if (used.searchRequests30Day > 0)
+                            tbResults.Text += "      Search 30 Day Requests Used: " + used.searchRequests30Day + Environment.NewLine;
+                        if (used.searchRequestsFullArchive > 0)
+                            tbResults.Text += "      Search FAS Requests Used: " + used.searchRequestsFullArchive + Environment.NewLine;
                     }    
 
                 }
@@ -189,6 +243,11 @@ namespace Gnip.SearchDemo
                 if (request.QueryJson.Length > 0)
                     MessageBox.Show(request.QueryJson, "Request Json", MessageBoxButtons.OK, MessageBoxIcon.Information,
                         MessageBoxDefaultButton.Button1);
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 }

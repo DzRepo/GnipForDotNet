@@ -56,12 +56,16 @@
             this.cbBucket = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
             this.btnShowJson = new System.Windows.Forms.Button();
+            this.gbSearchEndPoint = new System.Windows.Forms.GroupBox();
+            this.rbFAS = new System.Windows.Forms.RadioButton();
+            this.rb30Day = new System.Windows.Forms.RadioButton();
+            this.gbSearchEndPoint.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnGetResults
             // 
             this.btnGetResults.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnGetResults.Location = new System.Drawing.Point(710, 240);
+            this.btnGetResults.Location = new System.Drawing.Point(736, 240);
             this.btnGetResults.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnGetResults.Name = "btnGetResults";
             this.btnGetResults.Size = new System.Drawing.Size(125, 38);
@@ -87,8 +91,8 @@
             this.tbQuery.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tbQuery.Multiline = true;
             this.tbQuery.Name = "tbQuery";
-            this.tbQuery.Size = new System.Drawing.Size(780, 94);
-            this.tbQuery.TabIndex = 4;
+            this.tbQuery.Size = new System.Drawing.Size(806, 94);
+            this.tbQuery.TabIndex = 5;
             this.tbQuery.TextChanged += new System.EventHandler(this.tbQuery_TextChanged);
             // 
             // tbResults
@@ -101,13 +105,13 @@
             this.tbResults.Multiline = true;
             this.tbResults.Name = "tbResults";
             this.tbResults.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tbResults.Size = new System.Drawing.Size(896, 247);
+            this.tbResults.Size = new System.Drawing.Size(922, 247);
             this.tbResults.TabIndex = 14;
             // 
             // btnClear
             // 
             this.btnClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClear.Location = new System.Drawing.Point(785, 584);
+            this.btnClear.Location = new System.Drawing.Point(811, 584);
             this.btnClear.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(125, 38);
@@ -119,7 +123,7 @@
             // btnGetCounts
             // 
             this.btnGetCounts.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnGetCounts.Location = new System.Drawing.Point(710, 280);
+            this.btnGetCounts.Location = new System.Drawing.Point(736, 280);
             this.btnGetCounts.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnGetCounts.Name = "btnGetCounts";
             this.btnGetCounts.Size = new System.Drawing.Size(125, 38);
@@ -131,7 +135,7 @@
             // btnGetUsage
             // 
             this.btnGetUsage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnGetUsage.Location = new System.Drawing.Point(787, 13);
+            this.btnGetUsage.Location = new System.Drawing.Point(813, 13);
             this.btnGetUsage.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnGetUsage.Name = "btnGetUsage";
             this.btnGetUsage.Size = new System.Drawing.Size(125, 38);
@@ -215,7 +219,7 @@
             // tbMaxResults
             // 
             this.tbMaxResults.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.tbMaxResults.Location = new System.Drawing.Point(652, 252);
+            this.tbMaxResults.Location = new System.Drawing.Point(678, 252);
             this.tbMaxResults.Name = "tbMaxResults";
             this.tbMaxResults.Size = new System.Drawing.Size(45, 26);
             this.tbMaxResults.TabIndex = 10;
@@ -226,7 +230,7 @@
             // 
             this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(550, 254);
+            this.label6.Location = new System.Drawing.Point(576, 254);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(96, 20);
             this.label6.TabIndex = 16;
@@ -235,7 +239,7 @@
             // cbFromDate
             // 
             this.cbFromDate.AutoSize = true;
-            this.cbFromDate.Location = new System.Drawing.Point(77, 240);
+            this.cbFromDate.Location = new System.Drawing.Point(9, 239);
             this.cbFromDate.Name = "cbFromDate";
             this.cbFromDate.Size = new System.Drawing.Size(22, 21);
             this.cbFromDate.TabIndex = 6;
@@ -247,7 +251,7 @@
             this.dtpFromDate.CustomFormat = "M/dd/yyyy - HH:mm";
             this.dtpFromDate.Enabled = false;
             this.dtpFromDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpFromDate.Location = new System.Drawing.Point(196, 237);
+            this.dtpFromDate.Location = new System.Drawing.Point(128, 236);
             this.dtpFromDate.Name = "dtpFromDate";
             this.dtpFromDate.Size = new System.Drawing.Size(210, 26);
             this.dtpFromDate.TabIndex = 7;
@@ -257,7 +261,7 @@
             // 
             this.lbFromDate.AutoSize = true;
             this.lbFromDate.Enabled = false;
-            this.lbFromDate.Location = new System.Drawing.Point(105, 241);
+            this.lbFromDate.Location = new System.Drawing.Point(37, 240);
             this.lbFromDate.Name = "lbFromDate";
             this.lbFromDate.Size = new System.Drawing.Size(85, 20);
             this.lbFromDate.TabIndex = 19;
@@ -268,7 +272,7 @@
             // 
             this.lbToDate.AutoSize = true;
             this.lbToDate.Enabled = false;
-            this.lbToDate.Location = new System.Drawing.Point(124, 270);
+            this.lbToDate.Location = new System.Drawing.Point(56, 269);
             this.lbToDate.Name = "lbToDate";
             this.lbToDate.Size = new System.Drawing.Size(66, 20);
             this.lbToDate.TabIndex = 22;
@@ -280,7 +284,7 @@
             this.dtpToDate.CustomFormat = "M/dd/yyyy - HH:mm";
             this.dtpToDate.Enabled = false;
             this.dtpToDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpToDate.Location = new System.Drawing.Point(196, 269);
+            this.dtpToDate.Location = new System.Drawing.Point(128, 268);
             this.dtpToDate.Name = "dtpToDate";
             this.dtpToDate.Size = new System.Drawing.Size(210, 26);
             this.dtpToDate.TabIndex = 9;
@@ -289,7 +293,7 @@
             // cbToDate
             // 
             this.cbToDate.AutoSize = true;
-            this.cbToDate.Location = new System.Drawing.Point(77, 270);
+            this.cbToDate.Location = new System.Drawing.Point(9, 269);
             this.cbToDate.Name = "cbToDate";
             this.cbToDate.Size = new System.Drawing.Size(22, 21);
             this.cbToDate.TabIndex = 8;
@@ -300,7 +304,7 @@
             // 
             this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(550, 293);
+            this.label7.Location = new System.Drawing.Point(576, 293);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(59, 20);
             this.label7.TabIndex = 24;
@@ -318,7 +322,7 @@
             "day",
             "hour",
             "minute"});
-            this.cbBucket.Location = new System.Drawing.Point(615, 286);
+            this.cbBucket.Location = new System.Drawing.Point(641, 286);
             this.cbBucket.Name = "cbBucket";
             this.cbBucket.Size = new System.Drawing.Size(82, 28);
             this.cbBucket.TabIndex = 12;
@@ -337,7 +341,7 @@
             // btnShowJson
             // 
             this.btnShowJson.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnShowJson.Location = new System.Drawing.Point(841, 240);
+            this.btnShowJson.Location = new System.Drawing.Point(867, 240);
             this.btnShowJson.Name = "btnShowJson";
             this.btnShowJson.Size = new System.Drawing.Size(66, 78);
             this.btnShowJson.TabIndex = 27;
@@ -345,11 +349,46 @@
             this.btnShowJson.UseVisualStyleBackColor = true;
             this.btnShowJson.Click += new System.EventHandler(this.btnShowJson_Click);
             // 
+            // gbSearchEndPoint
+            // 
+            this.gbSearchEndPoint.Controls.Add(this.rbFAS);
+            this.gbSearchEndPoint.Controls.Add(this.rb30Day);
+            this.gbSearchEndPoint.Location = new System.Drawing.Point(356, 236);
+            this.gbSearchEndPoint.Name = "gbSearchEndPoint";
+            this.gbSearchEndPoint.Size = new System.Drawing.Size(200, 89);
+            this.gbSearchEndPoint.TabIndex = 10;
+            this.gbSearchEndPoint.TabStop = false;
+            this.gbSearchEndPoint.Text = "Search Endpoint";
+            this.gbSearchEndPoint.Enter += new System.EventHandler(this.groupBox1_Enter);
+            // 
+            // rbFAS
+            // 
+            this.rbFAS.AutoSize = true;
+            this.rbFAS.Checked = true;
+            this.rbFAS.Location = new System.Drawing.Point(7, 57);
+            this.rbFAS.Name = "rbFAS";
+            this.rbFAS.Size = new System.Drawing.Size(170, 24);
+            this.rbFAS.TabIndex = 1;
+            this.rbFAS.TabStop = true;
+            this.rbFAS.Text = "Full Archive Search";
+            this.rbFAS.UseVisualStyleBackColor = true;
+            // 
+            // rb30Day
+            // 
+            this.rb30Day.AutoSize = true;
+            this.rb30Day.Location = new System.Drawing.Point(7, 28);
+            this.rb30Day.Name = "rb30Day";
+            this.rb30Day.Size = new System.Drawing.Size(140, 24);
+            this.rb30Day.TabIndex = 0;
+            this.rb30Day.Text = "30-Day Search";
+            this.rb30Day.UseVisualStyleBackColor = true;
+            // 
             // frmSearchAndUsageDemo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(923, 635);
+            this.ClientSize = new System.Drawing.Size(949, 635);
+            this.Controls.Add(this.gbSearchEndPoint);
             this.Controls.Add(this.btnShowJson);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.cbBucket);
@@ -382,6 +421,8 @@
             this.MinimumSize = new System.Drawing.Size(770, 500);
             this.Name = "frmSearchAndUsageDemo";
             this.Text = "SearchAPI & UsageAPI Demo";
+            this.gbSearchEndPoint.ResumeLayout(false);
+            this.gbSearchEndPoint.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -416,6 +457,9 @@
         private System.Windows.Forms.ComboBox cbBucket;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button btnShowJson;
+        private System.Windows.Forms.GroupBox gbSearchEndPoint;
+        private System.Windows.Forms.RadioButton rbFAS;
+        private System.Windows.Forms.RadioButton rb30Day;
     }
 }
 

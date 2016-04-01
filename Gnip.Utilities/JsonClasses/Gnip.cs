@@ -1,4 +1,4 @@
-﻿using System.Data.Common;
+﻿// ReSharper disable InconsistentNaming
 
 namespace Gnip.Utilities.JsonClasses
 {

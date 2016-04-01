@@ -16,6 +16,7 @@ namespace Gnip.SearchAPI
     /// </summary>
     public class Counts
     {
+        public string next;
         public Intervals[] results;
     }
 
