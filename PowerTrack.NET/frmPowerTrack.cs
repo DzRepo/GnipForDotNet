@@ -289,7 +289,7 @@ namespace PowerTrack.NET
 
             if (tbAccountName.Text != null)
             {
-                rm.Url = UrlBuilder.RuleUrl(tbAccountName.Text, tbStreamName.Text);
+                rm.Url = UrlBuilder.RuleUrl(tbAccountName.Text, tbStreamName.Text, cbPowerTrack20.Checked);
                 rm.Username = tbUsername.Text;
                 rm.Password = tbPassword.Text;
 
@@ -338,7 +338,7 @@ namespace PowerTrack.NET
                 if (dataTable != null)
                 {
 
-                    rm.Url = UrlBuilder.RuleUrl(tbAccountName.Text, tbStreamName.Text);
+                    rm.Url = UrlBuilder.RuleUrl(tbAccountName.Text, tbStreamName.Text, cbPowerTrack20.Checked);
                     rm.Username = tbUsername.Text;
                     rm.Password = tbPassword.Text;
 
@@ -386,7 +386,7 @@ namespace PowerTrack.NET
 
                     if (deleteRules.Count > 0)
                     {
-                        if (rm.DeleteRules(deleteRules))
+                        if (rm.DeleteRules(deleteRules, cbPowerTrack20.Checked))
                             tsMessage.Text = "Rules Deleted";
                         else
                         {
@@ -551,12 +551,16 @@ namespace PowerTrack.NET
             }
             else
             {
-
                 dsStream.Tables["Stream"].Rows.Clear();
                 dsStream.Tables["Stream"].Rows.Clear();
-                
-                activityStream.Connect( tbAccountName.Text, tbUsername.Text,tbPassword.Text,tbStreamName.Text);
 
+                activityStream.Connect(
+                    tbAccountName.Text, 
+                    tbUsername.Text, 
+                    tbPassword.Text, 
+                    tbStreamName.Text, 
+                    cbPowerTrack20.Checked);
+               
                 Invoke((MethodInvoker) delegate
                 {
                     btnStreamToggle.Text = "Stop";

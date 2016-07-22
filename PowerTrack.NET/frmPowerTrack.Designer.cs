@@ -45,6 +45,8 @@
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.tsMessage = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tsStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.tabContainer = new System.Windows.Forms.TabControl();
             this.tabSettings = new System.Windows.Forms.TabPage();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -79,8 +81,7 @@
             this.tabStream = new System.Windows.Forms.TabPage();
             this.btnStreamToggle = new System.Windows.Forms.Button();
             this.dgvStream = new System.Windows.Forms.DataGridView();
-            this.tsMessage = new System.Windows.Forms.ToolStripStatusLabel();
-            this.tsStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.cbPowerTrack20 = new System.Windows.Forms.CheckBox();
             this.statusStrip1.SuspendLayout();
             this.tabContainer.SuspendLayout();
             this.tabSettings.SuspendLayout();
@@ -120,19 +121,19 @@
             // settingsToolStripMenuItem
             // 
             this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(176, 30);
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(189, 30);
             this.settingsToolStripMenuItem.Text = "&Settings";
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(173, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(186, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(176, 30);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(189, 30);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -149,19 +150,19 @@
             // viewToolStripMenuItem
             // 
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            this.viewToolStripMenuItem.Size = new System.Drawing.Size(147, 30);
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(160, 30);
             this.viewToolStripMenuItem.Text = "&View";
             // 
             // updateToolStripMenuItem
             // 
             this.updateToolStripMenuItem.Name = "updateToolStripMenuItem";
-            this.updateToolStripMenuItem.Size = new System.Drawing.Size(147, 30);
+            this.updateToolStripMenuItem.Size = new System.Drawing.Size(160, 30);
             this.updateToolStripMenuItem.Text = "&Update";
             // 
             // validateToolStripMenuItem
             // 
             this.validateToolStripMenuItem.Name = "validateToolStripMenuItem";
-            this.validateToolStripMenuItem.Size = new System.Drawing.Size(147, 30);
+            this.validateToolStripMenuItem.Size = new System.Drawing.Size(160, 30);
             this.validateToolStripMenuItem.Text = "&Validate";
             // 
             // streamToolStripMenuItem
@@ -177,13 +178,13 @@
             // 
             this.startToolStripMenuItem.Name = "startToolStripMenuItem";
             this.startToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.startToolStripMenuItem.Size = new System.Drawing.Size(207, 30);
+            this.startToolStripMenuItem.Size = new System.Drawing.Size(220, 30);
             this.startToolStripMenuItem.Text = "&Start / Stop";
             // 
             // fieldsToShowToolStripMenuItem
             // 
             this.fieldsToShowToolStripMenuItem.Name = "fieldsToShowToolStripMenuItem";
-            this.fieldsToShowToolStripMenuItem.Size = new System.Drawing.Size(207, 30);
+            this.fieldsToShowToolStripMenuItem.Size = new System.Drawing.Size(220, 30);
             this.fieldsToShowToolStripMenuItem.Text = "&Fields to Show";
             // 
             // helpToolStripMenuItem
@@ -198,7 +199,7 @@
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
             this.aboutToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F1;
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(165, 30);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(178, 30);
             this.aboutToolStripMenuItem.Text = "&About";
             // 
             // statusStrip1
@@ -208,12 +209,25 @@
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsMessage,
             this.tsStatus});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 560);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 566);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Padding = new System.Windows.Forms.Padding(2, 0, 21, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(732, 28);
+            this.statusStrip1.Size = new System.Drawing.Size(732, 22);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
+            // 
+            // tsMessage
+            // 
+            this.tsMessage.ForeColor = System.Drawing.Color.OrangeRed;
+            this.tsMessage.Name = "tsMessage";
+            this.tsMessage.Size = new System.Drawing.Size(0, 17);
+            this.tsMessage.Click += new System.EventHandler(this.toolStripStatusLabel1_Click);
+            // 
+            // tsStatus
+            // 
+            this.tsStatus.Name = "tsStatus";
+            this.tsStatus.Size = new System.Drawing.Size(0, 17);
+            this.tsStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // tabContainer
             // 
@@ -226,7 +240,7 @@
             this.tabContainer.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabContainer.Name = "tabContainer";
             this.tabContainer.SelectedIndex = 0;
-            this.tabContainer.Size = new System.Drawing.Size(732, 536);
+            this.tabContainer.Size = new System.Drawing.Size(732, 542);
             this.tabContainer.TabIndex = 2;
             this.tabContainer.TabIndexChanged += new System.EventHandler(this.tabContainer_TabIndexChanged);
             // 
@@ -238,7 +252,7 @@
             this.tabSettings.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabSettings.Name = "tabSettings";
             this.tabSettings.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.tabSettings.Size = new System.Drawing.Size(724, 503);
+            this.tabSettings.Size = new System.Drawing.Size(724, 509);
             this.tabSettings.TabIndex = 4;
             this.tabSettings.Text = "Settings";
             // 
@@ -247,6 +261,7 @@
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.BackColor = System.Drawing.Color.Silver;
+            this.groupBox1.Controls.Add(this.cbPowerTrack20);
             this.groupBox1.Controls.Add(this.tbStreamName);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.tbPassword);
@@ -260,7 +275,7 @@
             this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.groupBox1.Size = new System.Drawing.Size(703, 220);
+            this.groupBox1.Size = new System.Drawing.Size(703, 260);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Account Settings";
@@ -369,7 +384,7 @@
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(511, 446);
+            this.button1.Location = new System.Drawing.Point(511, 452);
             this.button1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(82, 32);
@@ -381,7 +396,7 @@
             // btnLoad
             // 
             this.btnLoad.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnLoad.Location = new System.Drawing.Point(616, 446);
+            this.btnLoad.Location = new System.Drawing.Point(616, 452);
             this.btnLoad.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnLoad.Name = "btnLoad";
             this.btnLoad.Size = new System.Drawing.Size(82, 32);
@@ -393,7 +408,7 @@
             // btnRefresh
             // 
             this.btnRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRefresh.Location = new System.Drawing.Point(727, 610);
+            this.btnRefresh.Location = new System.Drawing.Point(727, 616);
             this.btnRefresh.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(112, 35);
@@ -405,7 +420,7 @@
             // btnUpdate
             // 
             this.btnUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnUpdate.Location = new System.Drawing.Point(848, 610);
+            this.btnUpdate.Location = new System.Drawing.Point(848, 616);
             this.btnUpdate.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(112, 35);
@@ -433,7 +448,7 @@
             this.dgRules.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.dgRules.RowHeadersWidth = 30;
             this.dgRules.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgRules.Size = new System.Drawing.Size(712, 415);
+            this.dgRules.Size = new System.Drawing.Size(712, 421);
             this.dgRules.TabIndex = 0;
             this.dgRules.CurrentCellChanged += new System.EventHandler(this.dgRules_CurrentCellChanged);
             // 
@@ -442,7 +457,7 @@
             this.Rule.DataPropertyName = "value";
             this.Rule.HeaderText = "Rule";
             this.Rule.Name = "Rule";
-            this.Rule.Width = 67;
+            this.Rule.Width = 78;
             // 
             // tabFieldChooser
             // 
@@ -577,7 +592,7 @@
             // btnConfirmFieldChooser
             // 
             this.btnConfirmFieldChooser.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnConfirmFieldChooser.Location = new System.Drawing.Point(592, 443);
+            this.btnConfirmFieldChooser.Location = new System.Drawing.Point(592, 449);
             this.btnConfirmFieldChooser.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnConfirmFieldChooser.Name = "btnConfirmFieldChooser";
             this.btnConfirmFieldChooser.Size = new System.Drawing.Size(112, 35);
@@ -645,7 +660,7 @@
             // btnStreamToggle
             // 
             this.btnStreamToggle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnStreamToggle.Location = new System.Drawing.Point(590, 446);
+            this.btnStreamToggle.Location = new System.Drawing.Point(590, 452);
             this.btnStreamToggle.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnStreamToggle.Name = "btnStreamToggle";
             this.btnStreamToggle.Size = new System.Drawing.Size(112, 35);
@@ -668,22 +683,19 @@
             this.dgvStream.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.dgvStream.Name = "dgvStream";
             this.dgvStream.ReadOnly = true;
-            this.dgvStream.Size = new System.Drawing.Size(706, 406);
+            this.dgvStream.Size = new System.Drawing.Size(706, 412);
             this.dgvStream.TabIndex = 0;
             this.dgvStream.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dgvStream_DataError);
             // 
-            // tsMessage
+            // cbPowerTrack20
             // 
-            this.tsMessage.ForeColor = System.Drawing.Color.OrangeRed;
-            this.tsMessage.Name = "tsMessage";
-            this.tsMessage.Size = new System.Drawing.Size(0, 23);
-            this.tsMessage.Click += new System.EventHandler(this.toolStripStatusLabel1_Click);
-            // 
-            // tsStatus
-            // 
-            this.tsStatus.Name = "tsStatus";
-            this.tsStatus.Size = new System.Drawing.Size(0, 23);
-            this.tsStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.cbPowerTrack20.AutoSize = true;
+            this.cbPowerTrack20.Location = new System.Drawing.Point(141, 206);
+            this.cbPowerTrack20.Name = "cbPowerTrack20";
+            this.cbPowerTrack20.Size = new System.Drawing.Size(200, 24);
+            this.cbPowerTrack20.TabIndex = 10;
+            this.cbPowerTrack20.Text = "PowerTrack 2.0 Stream";
+            this.cbPowerTrack20.UseVisualStyleBackColor = false;
             // 
             // frmPowerTrack
             // 
@@ -775,6 +787,7 @@
         private System.Windows.Forms.CheckedListBox clbTwitterEntities;
         private System.Windows.Forms.ToolStripStatusLabel tsMessage;
         private System.Windows.Forms.ToolStripStatusLabel tsStatus;
+        private System.Windows.Forms.CheckBox cbPowerTrack20;
     }
 }
 

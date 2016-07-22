@@ -66,25 +66,40 @@ namespace Gnip.Powertrack
             }
         }
 
+
         public bool Connect(
             string accountName,
             string userName,
             string password,
-            string streamName)
+            string streamName,
+            bool is20Stream = false)
         {
 
             // store stream name in class variable for use by performance counter
             _streamName = streamName;
             _shutDown = false;
 
-            // form URL based on parameters
-            var powerTrackUrl = 
-                @"https://stream.gnip.com:443/accounts/" + 
-                accountName + 
-                "/publishers/twitter/streams/track/" + 
+            var powerTrackUrl = "";
+            if (is20Stream)
+            {
+                powerTrackUrl =
+                @"https://gnip-stream.twitter.com:443/stream/powertrack/accounts/" +
+                accountName +
+                "/publishers/twitter/" +
                 streamName +
                 ".json";
-
+            }
+            else
+            {
+                powerTrackUrl =
+                    @"https://stream.gnip.com:443/accounts/" +
+                    accountName +
+                    "/publishers/twitter/streams/track/" +
+                    streamName +
+                    ".json";
+            }
+            // form URL based on parameters
+            
             _request = (HttpWebRequest)WebRequest.Create(powerTrackUrl);
             _request.Method = "GET";
 
@@ -244,7 +259,7 @@ namespace Gnip.Powertrack
                     }
                     else
                     {
-                        // blank line?  should be a heart beat.  Usually first row.
+                        // blank line?  should be a heart beat.  Usually first row of a new block, but not always.
                         Debug.WriteLine("*** Heartbeat on line " + row + " of " + rows.Length);
                     }
                 }
@@ -261,14 +276,22 @@ namespace Gnip.Powertrack
         {
             // does it end in a }?  If not, return false instead of attempting deserialize
             if (rawText.EndsWith("}"))
-            try
             {
-                activity = JsonConvert.DeserializeObject<Activity>(rawText);
-                return true;
-            }
-            catch (Exception)
-            {
-                // ignored
+                try
+                {
+                    activity = JsonConvert.DeserializeObject<Activity>(rawText);
+                    return true;
+                }
+                catch (JsonSerializationException JSE)
+                {
+                    
+                    Debug.WriteLine("Deserialize Failed: " + JSE.Message);
+                }
+                catch (Exception)
+                {
+                    
+                    // ignored
+                }    
             }
             activity = null;
             return false;

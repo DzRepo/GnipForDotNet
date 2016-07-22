@@ -46,21 +46,34 @@ namespace Gnip.Powertrack.Rules
             }
         }
 
-        public bool DeleteRules(List<Rule> rules)
+        public bool DeleteRules(List<Rule> rules, bool isPowerTrack20 = false)
         {
             try
             {
                 var deleteJson = rules.ToJson();
                 string responseString;
+                HttpStatusCode responseCode;
 
-                var responseCode = Restful.GetRestResponse(
-                    "DELETE",
-                    Url,
-                    Username, 
-                    Password, 
-                    out responseString,
-                    deleteJson);
-
+                if (isPowerTrack20)
+                {
+                    responseCode = Restful.GetRestResponse(
+                        "POST",
+                        Url + @"?_method=delete",
+                        Username,
+                        Password,
+                        out responseString,
+                        deleteJson);
+                }
+                else
+                {
+                    responseCode = Restful.GetRestResponse(
+                        "DELETE",
+                        Url,
+                        Username,
+                        Password,
+                        out responseString,
+                        deleteJson);
+                }
                 if (responseCode == HttpStatusCode.OK)
                     return true;
                 else
