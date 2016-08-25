@@ -72,8 +72,12 @@ namespace Gnip.Powertrack
             string userName,
             string password,
             string streamName,
-            bool is20Stream = false)
+            bool is20Stream = false,
+            bool isReplay = false,
+            string fromDate = null,
+            string toDate = null)
         {
+            // Note that for replay streams, no validation of fromDate or toDate is done.
 
             // store stream name in class variable for use by performance counter
             _streamName = streamName;
@@ -82,21 +86,54 @@ namespace Gnip.Powertrack
             var powerTrackUrl = "";
             if (is20Stream)
             {
-                powerTrackUrl =
-                @"https://gnip-stream.twitter.com:443/stream/powertrack/accounts/" +
-                accountName +
-                "/publishers/twitter/" +
-                streamName +
-                ".json";
+                if (isReplay)
+                {
+                    // https://gnip-stream.gnip.com/replay/powertrack/accounts/steven-dzilvelis/publishers/twitter/prod.json
+
+                    powerTrackUrl =
+                        @"https://gnip-stream.gnip.com/replay/powertrack/accounts/" +
+                        accountName +
+                        "/publishers/twitter/" +
+                        streamName +
+                        ".json?fromDate=" +
+                        fromDate + 
+                        "&toDate=" +
+                        toDate;
+                }
+                else
+                {
+                    powerTrackUrl =
+                        @"https://gnip-stream.twitter.com:443/stream/powertrack/accounts/" +
+                        accountName +
+                        "/publishers/twitter/" +
+                        streamName +
+                        ".json";
+                }
             }
             else
             {
-                powerTrackUrl =
-                    @"https://stream.gnip.com:443/accounts/" +
-                    accountName +
-                    "/publishers/twitter/streams/track/" +
-                    streamName +
-                    ".json";
+                if (isReplay)
+                {
+                    // https://stream.gnip.com:443/accounts/steven-dzilvelis/publishers/twitter/replay/track/prod.json
+                    powerTrackUrl =
+                        @"https://stream.gnip.com:443/accounts/" +
+                        accountName +
+                        "/publishers/twitter/replay/track/" +
+                        streamName +
+                        ".json?fromDate=" +
+                        fromDate +
+                        "&toDate=" +
+                        toDate;
+                }
+                else
+                {
+                    powerTrackUrl =
+                        @"https://stream.gnip.com:443/accounts/" +
+                        accountName +
+                        "/publishers/twitter/streams/track/" +
+                        streamName +
+                        ".json";
+                }
             }
             // form URL based on parameters
             

@@ -50,6 +50,13 @@
             this.tabContainer = new System.Windows.Forms.TabControl();
             this.tabSettings = new System.Windows.Forms.TabPage();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.gbReplayParams = new System.Windows.Forms.GroupBox();
+            this.tbToDate = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.tbFromDate = new System.Windows.Forms.TextBox();
+            this.cbReplay = new System.Windows.Forms.CheckBox();
+            this.cbPowerTrack20 = new System.Windows.Forms.CheckBox();
             this.tbStreamName = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.tbPassword = new System.Windows.Forms.TextBox();
@@ -81,11 +88,12 @@
             this.tabStream = new System.Windows.Forms.TabPage();
             this.btnStreamToggle = new System.Windows.Forms.Button();
             this.dgvStream = new System.Windows.Forms.DataGridView();
-            this.cbPowerTrack20 = new System.Windows.Forms.CheckBox();
+            this.label8 = new System.Windows.Forms.Label();
             this.statusStrip1.SuspendLayout();
             this.tabContainer.SuspendLayout();
             this.tabSettings.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.gbReplayParams.SuspendLayout();
             this.tabRules.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgRules)).BeginInit();
             this.tabFieldChooser.SuspendLayout();
@@ -261,6 +269,8 @@
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.BackColor = System.Drawing.Color.Silver;
+            this.groupBox1.Controls.Add(this.gbReplayParams);
+            this.groupBox1.Controls.Add(this.cbReplay);
             this.groupBox1.Controls.Add(this.cbPowerTrack20);
             this.groupBox1.Controls.Add(this.tbStreamName);
             this.groupBox1.Controls.Add(this.label4);
@@ -275,10 +285,88 @@
             this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.groupBox1.Size = new System.Drawing.Size(703, 260);
+            this.groupBox1.Size = new System.Drawing.Size(703, 454);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Account Settings";
+            // 
+            // gbReplayParams
+            // 
+            this.gbReplayParams.Controls.Add(this.label8);
+            this.gbReplayParams.Controls.Add(this.tbToDate);
+            this.gbReplayParams.Controls.Add(this.label6);
+            this.gbReplayParams.Controls.Add(this.label7);
+            this.gbReplayParams.Controls.Add(this.tbFromDate);
+            this.gbReplayParams.Location = new System.Drawing.Point(19, 262);
+            this.gbReplayParams.Name = "gbReplayParams";
+            this.gbReplayParams.Size = new System.Drawing.Size(366, 146);
+            this.gbReplayParams.TabIndex = 16;
+            this.gbReplayParams.TabStop = false;
+            this.gbReplayParams.Text = "Replay Parameters";
+            this.gbReplayParams.Visible = false;
+            // 
+            // tbToDate
+            // 
+            this.tbToDate.BackColor = System.Drawing.SystemColors.Control;
+            this.tbToDate.Location = new System.Drawing.Point(142, 101);
+            this.tbToDate.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.tbToDate.Name = "tbToDate";
+            this.tbToDate.Size = new System.Drawing.Size(175, 26);
+            this.tbToDate.TabIndex = 15;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(11, 71);
+            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(123, 20);
+            this.label6.TabIndex = 12;
+            this.label6.Text = "From Date/Time";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.label6.Click += new System.EventHandler(this.label6_Click);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(30, 104);
+            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(104, 20);
+            this.label7.TabIndex = 14;
+            this.label7.Text = "To Date/Time";
+            this.label7.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // tbFromDate
+            // 
+            this.tbFromDate.BackColor = System.Drawing.SystemColors.Control;
+            this.tbFromDate.Location = new System.Drawing.Point(142, 65);
+            this.tbFromDate.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.tbFromDate.Name = "tbFromDate";
+            this.tbFromDate.Size = new System.Drawing.Size(175, 26);
+            this.tbFromDate.TabIndex = 13;
+            this.tbFromDate.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            // 
+            // cbReplay
+            // 
+            this.cbReplay.AutoSize = true;
+            this.cbReplay.Location = new System.Drawing.Point(141, 222);
+            this.cbReplay.Name = "cbReplay";
+            this.cbReplay.Size = new System.Drawing.Size(84, 24);
+            this.cbReplay.TabIndex = 11;
+            this.cbReplay.Text = "Replay";
+            this.cbReplay.UseVisualStyleBackColor = false;
+            this.cbReplay.CheckStateChanged += new System.EventHandler(this.cbReplay_CheckStateChanged);
+            // 
+            // cbPowerTrack20
+            // 
+            this.cbPowerTrack20.AutoSize = true;
+            this.cbPowerTrack20.Location = new System.Drawing.Point(141, 192);
+            this.cbPowerTrack20.Name = "cbPowerTrack20";
+            this.cbPowerTrack20.Size = new System.Drawing.Size(200, 24);
+            this.cbPowerTrack20.TabIndex = 10;
+            this.cbPowerTrack20.Text = "PowerTrack 2.0 Stream";
+            this.cbPowerTrack20.UseVisualStyleBackColor = false;
             // 
             // tbStreamName
             // 
@@ -687,15 +775,16 @@
             this.dgvStream.TabIndex = 0;
             this.dgvStream.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.dgvStream_DataError);
             // 
-            // cbPowerTrack20
+            // label8
             // 
-            this.cbPowerTrack20.AutoSize = true;
-            this.cbPowerTrack20.Location = new System.Drawing.Point(141, 206);
-            this.cbPowerTrack20.Name = "cbPowerTrack20";
-            this.cbPowerTrack20.Size = new System.Drawing.Size(200, 24);
-            this.cbPowerTrack20.TabIndex = 10;
-            this.cbPowerTrack20.Text = "PowerTrack 2.0 Stream";
-            this.cbPowerTrack20.UseVisualStyleBackColor = false;
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(107, 40);
+            this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(210, 20);
+            this.label8.TabIndex = 16;
+            this.label8.Text = "Format:  YYYYmmDDhhMM";
+            this.label8.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // frmPowerTrack
             // 
@@ -716,6 +805,8 @@
             this.tabSettings.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.gbReplayParams.ResumeLayout(false);
+            this.gbReplayParams.PerformLayout();
             this.tabRules.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgRules)).EndInit();
             this.tabFieldChooser.ResumeLayout(false);
@@ -788,6 +879,13 @@
         private System.Windows.Forms.ToolStripStatusLabel tsMessage;
         private System.Windows.Forms.ToolStripStatusLabel tsStatus;
         private System.Windows.Forms.CheckBox cbPowerTrack20;
+        private System.Windows.Forms.CheckBox cbReplay;
+        private System.Windows.Forms.TextBox tbFromDate;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox tbToDate;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.GroupBox gbReplayParams;
+        private System.Windows.Forms.Label label8;
     }
 }
 

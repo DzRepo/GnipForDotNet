@@ -289,7 +289,11 @@ namespace PowerTrack.NET
 
             if (tbAccountName.Text != null)
             {
-                rm.Url = UrlBuilder.RuleUrl(tbAccountName.Text, tbStreamName.Text, cbPowerTrack20.Checked);
+                rm.Url = UrlBuilder.RuleUrl(
+                    tbAccountName.Text, 
+                    tbStreamName.Text, 
+                    cbPowerTrack20.Checked, 
+                    cbReplay.Checked);
                 rm.Username = tbUsername.Text;
                 rm.Password = tbPassword.Text;
 
@@ -338,7 +342,7 @@ namespace PowerTrack.NET
                 if (dataTable != null)
                 {
 
-                    rm.Url = UrlBuilder.RuleUrl(tbAccountName.Text, tbStreamName.Text, cbPowerTrack20.Checked);
+                    rm.Url = UrlBuilder.RuleUrl(tbAccountName.Text, tbStreamName.Text, cbPowerTrack20.Checked, cbReplay.Checked);
                     rm.Username = tbUsername.Text;
                     rm.Password = tbPassword.Text;
 
@@ -559,7 +563,10 @@ namespace PowerTrack.NET
                     tbUsername.Text, 
                     tbPassword.Text, 
                     tbStreamName.Text, 
-                    cbPowerTrack20.Checked);
+                    cbPowerTrack20.Checked,
+                    cbReplay.Checked, 
+                    tbFromDate.Text,
+                    tbToDate.Text);
                
                 Invoke((MethodInvoker) delegate
                 {
@@ -598,6 +605,21 @@ namespace PowerTrack.NET
         private void toolStripStatusLabel1_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void label6_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cbReplay_CheckStateChanged(object sender, EventArgs e)
+        {
+            gbReplayParams.Visible = cbReplay.Checked;
         }
     }
 }
