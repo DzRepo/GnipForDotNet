@@ -18,6 +18,8 @@ namespace Gnip.Utilities.JsonClasses
         public Twitter_Extended_Entities twitter_extended_entities;
         public string link;
         public string body;
+        public int[] display_text_range;
+        public Long_Object long_object;  // added to support More with 140
         public string objectType;
         // object is a reserved word, so need to indicate it's JSON name via attribute.
         [JsonProperty("object")]
@@ -29,5 +31,13 @@ namespace Gnip.Utilities.JsonClasses
         public long retweetCount;
         public Gnip gnip;
         public Activity twitter_quoted_status;  // will contain full Activity Object of Tweet that was quoted
+    }
+
+    public class Long_Object
+    {
+        public string body;
+        public int[] display_text_range; 
+        public Twitter_Entities twitter_entities;
+        public Twitter_Extended_Entities extended_entities;
     }
 }
