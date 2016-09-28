@@ -69,7 +69,7 @@
             this.btnGetResults.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnGetResults.Name = "btnGetResults";
             this.btnGetResults.Size = new System.Drawing.Size(125, 38);
-            this.btnGetResults.TabIndex = 11;
+            this.btnGetResults.TabIndex = 15;
             this.btnGetResults.Text = "Get Results";
             this.btnGetResults.UseVisualStyleBackColor = true;
             this.btnGetResults.Click += new System.EventHandler(this.btnGetResults_Click);
@@ -92,7 +92,7 @@
             this.tbQuery.Multiline = true;
             this.tbQuery.Name = "tbQuery";
             this.tbQuery.Size = new System.Drawing.Size(806, 94);
-            this.tbQuery.TabIndex = 5;
+            this.tbQuery.TabIndex = 4;
             this.tbQuery.TextChanged += new System.EventHandler(this.tbQuery_TextChanged);
             // 
             // tbResults
@@ -106,7 +106,7 @@
             this.tbResults.Name = "tbResults";
             this.tbResults.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.tbResults.Size = new System.Drawing.Size(922, 247);
-            this.tbResults.TabIndex = 14;
+            this.tbResults.TabIndex = 18;
             // 
             // btnClear
             // 
@@ -115,7 +115,7 @@
             this.btnClear.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(125, 38);
-            this.btnClear.TabIndex = 15;
+            this.btnClear.TabIndex = 19;
             this.btnClear.Text = "Clear";
             this.btnClear.UseVisualStyleBackColor = true;
             this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
@@ -127,7 +127,7 @@
             this.btnGetCounts.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnGetCounts.Name = "btnGetCounts";
             this.btnGetCounts.Size = new System.Drawing.Size(125, 38);
-            this.btnGetCounts.TabIndex = 13;
+            this.btnGetCounts.TabIndex = 16;
             this.btnGetCounts.Text = "Get Counts";
             this.btnGetCounts.UseVisualStyleBackColor = true;
             this.btnGetCounts.Click += new System.EventHandler(this.btnGetCounts_Click);
@@ -139,7 +139,7 @@
             this.btnGetUsage.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnGetUsage.Name = "btnGetUsage";
             this.btnGetUsage.Size = new System.Drawing.Size(125, 38);
-            this.btnGetUsage.TabIndex = 5;
+            this.btnGetUsage.TabIndex = 100;
             this.btnGetUsage.Text = "Get Usage";
             this.btnGetUsage.UseVisualStyleBackColor = true;
             this.btnGetUsage.Click += new System.EventHandler(this.btnGetUsage_Click);
@@ -222,7 +222,7 @@
             this.tbMaxResults.Location = new System.Drawing.Point(678, 252);
             this.tbMaxResults.Name = "tbMaxResults";
             this.tbMaxResults.Size = new System.Drawing.Size(45, 26);
-            this.tbMaxResults.TabIndex = 10;
+            this.tbMaxResults.TabIndex = 13;
             this.tbMaxResults.Text = "500";
             this.tbMaxResults.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -325,7 +325,7 @@
             this.cbBucket.Location = new System.Drawing.Point(641, 286);
             this.cbBucket.Name = "cbBucket";
             this.cbBucket.Size = new System.Drawing.Size(82, 28);
-            this.cbBucket.TabIndex = 12;
+            this.cbBucket.TabIndex = 14;
             this.cbBucket.ValueMember = "Day";
             this.cbBucket.SelectedIndexChanged += new System.EventHandler(this.cbBucket_SelectedIndexChanged);
             // 
@@ -344,7 +344,7 @@
             this.btnShowJson.Location = new System.Drawing.Point(867, 240);
             this.btnShowJson.Name = "btnShowJson";
             this.btnShowJson.Size = new System.Drawing.Size(66, 78);
-            this.btnShowJson.TabIndex = 27;
+            this.btnShowJson.TabIndex = 17;
             this.btnShowJson.Text = "Show JSON";
             this.btnShowJson.UseVisualStyleBackColor = true;
             this.btnShowJson.Click += new System.EventHandler(this.btnShowJson_Click);
@@ -368,7 +368,7 @@
             this.rbFAS.Location = new System.Drawing.Point(7, 57);
             this.rbFAS.Name = "rbFAS";
             this.rbFAS.Size = new System.Drawing.Size(170, 24);
-            this.rbFAS.TabIndex = 1;
+            this.rbFAS.TabIndex = 12;
             this.rbFAS.TabStop = true;
             this.rbFAS.Text = "Full Archive Search";
             this.rbFAS.UseVisualStyleBackColor = true;
@@ -379,7 +379,8 @@
             this.rb30Day.Location = new System.Drawing.Point(7, 28);
             this.rb30Day.Name = "rb30Day";
             this.rb30Day.Size = new System.Drawing.Size(140, 24);
-            this.rb30Day.TabIndex = 0;
+            this.rb30Day.TabIndex = 11;
+            this.rb30Day.TabStop = true;
             this.rb30Day.Text = "30-Day Search";
             this.rb30Day.UseVisualStyleBackColor = true;
             // 

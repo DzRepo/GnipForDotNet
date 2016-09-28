@@ -20,10 +20,6 @@ namespace Gnip.UsageAPI
                 throw new ArgumentNullException(null, "Required parameter missing");
             }
 
-            // https://account-api.gnip.com/accounts/[your_account_name]/usage.json
-
-            // https://gnip-api.twitter.com/metrics/usage/accounts/[account-name].json
-
             var endPoint = @"https://gnip-api.twitter.com/metrics/usage/accounts/" + AccountName + ".json";
 
             try

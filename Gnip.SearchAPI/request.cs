@@ -24,7 +24,6 @@ namespace Gnip.SearchAPI
     public class SearchPost
     {
         public string query { get; set; }
-        public string publisher { get; set; }
         public int maxResults { get; set; }
         public DateTime fromDate { get; set; }
         public DateTime toDate { get; set; }
@@ -76,22 +75,15 @@ namespace Gnip.SearchAPI
             var endpoint = @"https://";
 
             if (SearchType == Search_Type.Search30Day)
-            {
-                endpoint += "search.gnip.com/accounts/" + AccountName + "/search/" + StreamName + "/";
-                if (searchEndpoint == Search_Endpoint.Counts)
-                    endpoint += "counts.json";
-                else
-                    endpoint += ".json";
-            }
+                endpoint += "gnip-api.twitter.com/search/30day/accounts/" + AccountName + "/" + StreamName;
             else
-            {
-                //   https://data-api.twitter.com/search/fullarchive/accounts/{accountName}/{streamName}.json
-                endpoint += "data-api.twitter.com/search/fullarchive/accounts/" + AccountName + "/" + StreamName;
-                if (searchEndpoint == Search_Endpoint.Counts)
-                    endpoint += "/counts.json";
-                else
-                    endpoint += ".json";
-            }
+                endpoint += "gnip-api.twitter.com/search/fullarchive/accounts/" + AccountName + "/" + StreamName;
+
+            if (searchEndpoint == Search_Endpoint.Counts)
+                endpoint += "/counts.json";
+            else
+                endpoint += ".json";
+
 
             return endpoint;
         }
@@ -110,10 +102,7 @@ namespace Gnip.SearchAPI
                 searchData.query = Query;
                 searchData.maxResults = 0;
 
-                // Not used in FAS
-                if (SearchType == Search_Type.Search30Day) searchData.publisher = "twitter";
-
-                searchData.bucket = bucket;
+               searchData.bucket = bucket;
                if (fromDateTime != null) searchData.fromDate = fromDateTime.GetValueOrDefault();
                if (toDateTime != null) searchData.toDate = toDateTime.GetValueOrDefault();
                 if (hasMore) searchData.next = nextToken;
@@ -159,9 +148,6 @@ namespace Gnip.SearchAPI
                 searchData.query = Query;
                 searchData.maxResults = maxResults;
                 
-                // Not used in FAS
-                if (SearchType == Search_Type.Search30Day) searchData.publisher = "twitter";
-
                 searchData.fromDate = fromDateTime.GetValueOrDefault();
                 searchData.toDate = toDateTime.GetValueOrDefault();
                 if (hasMore) searchData.next = nextToken;
@@ -201,11 +187,6 @@ namespace Gnip.SearchAPI
                 jw.WriteStartObject();
                 jw.WritePropertyName("query", false);
                 jw.WriteValue(searchPost.query);
-                if (searchPost.publisher != null)
-                {
-                    jw.WritePropertyName("publisher", false);
-                    jw.WriteValue(searchPost.publisher);
-                }
                 if (searchPost.maxResults > 0)
                 {
                     jw.WritePropertyName("maxResults", false);

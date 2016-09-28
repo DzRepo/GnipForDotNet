@@ -98,17 +98,20 @@ namespace Gnip.SearchDemo
             if (cbToDate.Checked) toDate = dtpToDate.Value;
 
             if (request == null) InitalizeRequest();
-            var response = request.GetCounts(tbQuery.Text, cbBucket.SelectedItem.ToString(), fromDate, toDate);
+
+            // default to day
+            var bucket = "day";
+            if (cbBucket.SelectedItem != null)
+                bucket = cbBucket.SelectedItem.ToString();
+
+            var response = request.GetCounts(tbQuery.Text, bucket, fromDate, toDate);
+
             if (response != null)
-            {
                 foreach (var x in response.results.Where(a => a.count > 0 ))
                     tbResults.Text += x.timePeriod + ": " + x.count + Environment.NewLine;
-            }
             else
-            {
                 if (request.ErrorState)
                     tbResults.Text += request.ErrorMessage;
-            }
             btnGetCounts.Enabled = true;
         }
 
