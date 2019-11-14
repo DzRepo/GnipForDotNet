@@ -36,4 +36,4 @@ The projects use [JSON.NET](http://www.newtonsoft.com/json) for deserializing in
 
 * Windows Forms application demonstrating use of Gnip.Powertrack.Historical 
 
-Contact [SteveDz](mailto:stevedz@twitter.com) with any questions.
+Contact [SteveDz](mailto:steven_dzilvelis@hotmail.com) with any questions.
